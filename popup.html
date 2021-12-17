@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/popup.css">
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+  </head>
+  <body>
+    <h1>Welcome to SugarShare! - Beta</h1>
+    <h3>
+      SugarShare helps you quickly create a link to share files with anybody 🚀!
+    </h3>
+    <p>
+      Links are valid for 24 hours, and any files up to 1 GB can be shared 😃
+    </p>
+    <br/>
+
+    <div id="js-upload" uk-form-custom>
+      <input type="file" multiple>
+      <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+    </div>
+
+    <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+
+    <div class="uk-margin">
+      <div class="uk-inline">
+        <button id="js-copy-clipboard" class="uk-form-icon uk-form-icon-flip uk-margin-medium-right" uk-icon="icon: copy" uk-tooltip="title: Copy to clipboard; delay: 200"></button>
+        <a id="js-open-newtab" class="uk-form-icon uk-form-icon-flip" href="#" target="_blank" uk-icon="icon: forward" uk-tooltip="title: Open in new tab; delay: 200"></a>
+        <input id="js-textzone" class="uk-input uk-form-width-large uk-text-middle" type="text" placeholder="" hidden readonly>
+      </div>
+    </div>
+
+    <div id="js-countdown" class="uk-grid-small uk-child-width-auto uk-margin" uk-grid uk-countdown="date:" hidden>
+      <div>
+        <div class="uk-countdown-number uk-countdown-days"></div>
+      </div>
+      <div class="uk-countdown-separator">:</div>
+      <div>
+        <div class="uk-countdown-number uk-countdown-hours"></div>
+      </div>
+      <div class="uk-countdown-separator">:</div>
+      <div>
+        <div class="uk-countdown-number uk-countdown-minutes"></div>
+      </div>
+      <div class="uk-countdown-separator">:</div>
+      <div>
+        <div class="uk-countdown-number uk-countdown-seconds"></div>
+      </div>
+    </div>
+
+    <script src="js/popup.js"></script>
+  </body>
+</html>
