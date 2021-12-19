@@ -9,45 +9,75 @@
     <script src="js/uikit-icons.min.js"></script>
   </head>
   <body>
-    <h1>Welcome to SugarShare! - Beta</h1>
-    <h3>
-      SugarShare helps you quickly create a link to share files with anybody 🚀!
-    </h3>
-    <p>
-      Links are valid for 24 hours, and any files up to 1 GB can be shared 😃
-    </p>
-    <br/>
+    <div class="uk-container uk-container-large">
+      <div class="uk-section">
+        <h2>
+          Welcome to SugarShare!
+          <span class="uk-badge">Beta</span>
+        </h2>
+        <h4>
+          SugarShare helps you quickly create a link to share files with anybody 🚀!
+        </h4>
+        <p class="uk-text-medium">
+          Links are valid for 24 hours, and you can share any files up to 10 MB 😃.
+        </p>
 
-    <div id="js-upload" uk-form-custom>
-      <input type="file" multiple>
-      <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
-    </div>
+        <p class="uk-text-medium">1. Select a file for upload</p>
+        <div uk-form-custom id="js-upload" class="uk-align-center" style="background-color: #EE7B30;">
+          <input type="file">
+          <button class="uk-button uk-button-default uk-width-1-1" type="button" tabindex="-1">Select file</button>
+        </div>
 
-    <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+        <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+  
+        <p class="uk-text-medium">2. Get your SugarLink to share with anyone!</p>
+        <div class="uk-inline">
+          <button id="js-copy-clipboard" class="uk-form-icon uk-form-icon-flip uk-margin-medium-right" uk-icon="icon: copy" uk-tooltip="title: Copy to clipboard; delay: 200"></button>
+          <a id="js-open-newtab" class="uk-form-icon uk-form-icon-flip" href="#" target="_blank" uk-icon="icon: forward" uk-tooltip="title: Open in a new tab; delay: 200"></a>
 
-    <div class="uk-margin">
-      <div class="uk-inline">
-        <button id="js-copy-clipboard" class="uk-form-icon uk-form-icon-flip uk-margin-medium-right" uk-icon="icon: copy" uk-tooltip="title: Copy to clipboard; delay: 200"></button>
-        <a id="js-open-newtab" class="uk-form-icon uk-form-icon-flip" href="#" target="_blank" uk-icon="icon: forward" uk-tooltip="title: Open in new tab; delay: 200"></a>
-        <input id="js-textzone" class="uk-input uk-form-width-large uk-text-middle" type="text" placeholder="" hidden readonly>
-      </div>
-    </div>
+          <input id="js-textzone" class="uk-input uk-form-width-large uk-text-middle" type="text" placeholder="" readonly>
+        </div>
 
-    <div id="js-countdown" class="uk-grid-small uk-child-width-auto uk-margin" uk-grid uk-countdown="date:" hidden>
-      <div>
-        <div class="uk-countdown-number uk-countdown-days"></div>
-      </div>
-      <div class="uk-countdown-separator">:</div>
-      <div>
-        <div class="uk-countdown-number uk-countdown-hours"></div>
-      </div>
-      <div class="uk-countdown-separator">:</div>
-      <div>
-        <div class="uk-countdown-number uk-countdown-minutes"></div>
-      </div>
-      <div class="uk-countdown-separator">:</div>
-      <div>
-        <div class="uk-countdown-number uk-countdown-seconds"></div>
+        <div class="uk-container uk-container-small uk-align-center">
+          <div id="js-countdown" class="uk-grid-small uk-child-width-auto uk-margin" uk-grid uk-countdown="date:" hidden>
+            <div>
+              <div class="uk-countdown-number uk-countdown-days"></div>
+            </div>
+            <div class="uk-countdown-separator">:</div>
+            <div>
+              <div class="uk-countdown-number uk-countdown-hours"></div>
+            </div>
+            <div class="uk-countdown-separator">:</div>
+            <div>
+              <div class="uk-countdown-number uk-countdown-minutes"></div>
+            </div>
+            <div class="uk-countdown-separator">:</div>
+            <div>
+              <div class="uk-countdown-number uk-countdown-seconds"></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="uk-text-medium">
+          SugarShare is &mdash; and will always be &mdash; free, but uploading and temporarily storing all these
+          sweet files takes resources, and we rely on your&nbsp;
+          <a href="#" style="color: #F0F6F6; text-decoration: underline;">support</a>
+          &nbsp;to keep SugarShare running and improving.
+        </p>
+
+        <footer>
+          <p class="uk-text-medium">
+            <a href="#" style="color: #F0F6F6; text-decoration: underline;">Go to main site</a>
+            &nbsp;|&nbsp;
+            <a href="#" style="color: #F0F6F6; text-decoration: underline;">Support</a>
+            &nbsp;|&nbsp;
+            <a href="#" style="color: #F0F6F6; text-decoration: underline;">Feedback</a>
+          </p>
+          <p class="uk-text-medium">
+            Made with &#9829; by&nbsp;
+            <a href="#" style="color: #F0F6F6; text-decoration: underline;">Redouane Achouri</a>
+          </p>
+        </footer>
       </div>
     </div>
 

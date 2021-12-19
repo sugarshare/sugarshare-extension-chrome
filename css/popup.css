@@ -1,14 +1,19 @@
 html {
-	/* width: 480px;
-	height: 300px; */
-	/* border: 10px outset black;
-	margin: 10px; */
+	width: 480px;
+	height: 300px;
+	/*
+	border: 10px outset black;
+	margin: 10px;
+	*/
 }
 
-/* body {
-	background-color: #009ddc;
+body {
+	background-color: #009DDC;
+	color: #F0F6F6;
+	font-family: Verdana, Tahoma, sans-serif;
 }
 
+/* 
 h1 {
 	text-align: center;
 } */
@@ -19,17 +24,15 @@ h1 {
 
 /* .button {
 	background-color: #EE7B30;
-	display: block;
-	margin: auto;
-	width: 70vw;
-	height: 2em;
 	cursor: pointer;
 }
 
+
 .button:hover {
 	background-color: #F08842;
-}
+} */
 
+/*
 #file-input-label {
 	text-align: center;
 	line-height: 1.6em;

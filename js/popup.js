@@ -42,7 +42,7 @@ UIkit.upload('#js-upload', {
     openNewtab.setAttribute('href', url);
 
     // Display URL
-    textzone.removeAttribute('hidden');
+    // textzone.removeAttribute('hidden');
     textzone.setAttribute('value', url);
 
     countdown.removeAttribute('hidden');
