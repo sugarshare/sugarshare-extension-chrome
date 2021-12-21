@@ -1,10 +1,6 @@
 html {
 	width: 480px;
-	height: 300px;
-	/*
-	border: 10px outset black;
-	margin: 10px;
-	*/
+	height: 640px;
 }
 
 body {
@@ -12,44 +8,3 @@ body {
 	color: #F0F6F6;
 	font-family: Verdana, Tahoma, sans-serif;
 }
-
-/* 
-h1 {
-	text-align: center;
-} */
-
-/* #file-input {
-	opacity: 0;	Hide file input button
-} */
-
-/* .button {
-	background-color: #EE7B30;
-	cursor: pointer;
-}
-
-
-.button:hover {
-	background-color: #F08842;
-} */
-
-/*
-#file-input-label {
-	text-align: center;
-	line-height: 1.6em;
-	border: 20px;
-	box-shadow: 20px;
-}
-
-#preview {
-	background-color: #F0F6F6;
-	display: block;
-	margin: auto;
-	width: 70vw;
-	line-height: 1.6em;
-}
-
-#upload-progress {
-	display: block;
-	margin: auto;
-	width: 70vw;
-} */
