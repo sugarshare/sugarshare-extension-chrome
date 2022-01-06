@@ -1,6 +1,7 @@
 'use strict';
 
 const UPLOAD_URL = 'https://sugarshare.redouaneachouri.com/upload';
+const MAX_FILE_SIZE_MB = 10;
 
 const progressBar = document.getElementById('js-progressbar');
 const countdown = document.getElementById('js-countdown');
@@ -12,8 +13,16 @@ UIkit.upload('#js-upload', {
   url: UPLOAD_URL,
   multiple: false,
 
-  error: function (e) {
-    alert(e);
+  error: function (error) {
+    progressBar.setAttribute('hidden', 'hidden');
+
+    const { xhr, status } = error;
+
+    if (status === 413) {
+      alert(`Ouch... This file exceeds the maximum supported size of ${MAX_FILE_SIZE_MB} MB 🙈`);
+    } else {
+      alert(`An error occurred, please try again.`);
+    }
   },
 
   loadStart: function (e) {
