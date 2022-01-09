@@ -1,9 +1,9 @@
 html {
 	width: 480px;
-	height: 640px;
+	min-height: 300px;
 }
 
-body {
+html, body {
 	background-color: #009DDC;
 	color: #F0F6F6;
 	font-family: Verdana, Tahoma, sans-serif;

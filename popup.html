@@ -3,84 +3,85 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/popup.css">
-    <link rel="stylesheet" href="css/uikit.min.css" />
     <script src="js/uikit.min.js"></script>
     <script src="js/uikit-icons.min.js"></script>
+    <link rel="stylesheet" href="css/uikit.min.css" />
+    <link rel="stylesheet" href="css/popup.css">
   </head>
   <body>
-    <div class="uk-container uk-margin-small-left uk-margin-small-right">
-      <div class="uk-section">
-        <h2>
-          Welcome to SugarShare!
-          <span class="uk-badge" style="background-color: black;">Beta</span>
-        </h2>
-        <h4>
-          SugarShare helps you quickly create a link to share files with anybody 🚀!
-        </h4>
-        <p class="uk-text-medium">
-          Links are valid for 24 hours, and you can share any file up to 10 MB 😃.
-        </p>
+    <div class="uk-container uk-margin-top uk-margin-small-left uk-margin-small-right">
+      <h4>
+        Welcome to SugarShare!
+        <span class="uk-badge" style="background-color: black;">Beta</span>
+      </h4>
+      <h5>
+        SugarShare helps you quickly create a link to share files with anybody 🚀!
+      </h5>
+      <p class="uk-text-medium">
+        Links are valid for 24 hours, and you can share any file up to 10 MB.
+      </p>
 
-        <div id="js-select-section" style="display: block;">
-          <p class="uk-text-medium">1. Select a file for upload:</p>
-          <div uk-form-custom id="js-upload" class="uk-align-center" style="background-color: #EE7B30;">
-            <input type="file">
-            <button class="uk-button uk-button-default uk-width-1-1" type="button" tabindex="-1">Select file</button>
-          </div>
-
-          <progress id="js-progressbar" class="uk-progress" value="0" max="100" style="display: none;"></progress>
+      <div id="js-select-section" style="display: block;">
+        <!-- <p class="uk-text-medium">1. Select a file for upload:</p> -->
+        <div uk-form-custom id="js-upload" class="uk-align-center" style="background-color: #EE7B30;">
+          <input type="file">
+          <button class="uk-button uk-button-default uk-width-1-1" type="button" tabindex="-1">Select a file</button>
         </div>
 
-        <div id="js-result-section" style="display: none;">
-          <p class="uk-text-medium">2. Get your SugarLink to share with anyone!</p>
-          <div class="uk-inline">
-            <button id="js-copy-clipboard" class="uk-form-icon uk-form-icon-flip uk-margin-medium-right" uk-icon="icon: copy" uk-tooltip="title: Copy to clipboard; delay: 200"></button>
-            <a id="js-open-newtab" class="uk-form-icon uk-form-icon-flip" href="#" target="_blank" uk-icon="icon: forward" uk-tooltip="title: Open in a new tab; delay: 200"></a>
+        <progress id="js-progressbar" class="uk-progress" value="0" max="100" style="display: none;"></progress>
+      </div>
 
-            <input id="js-textzone" class="uk-input uk-form-width-large uk-text-middle" type="text" placeholder="" readonly>
-          </div>
+      <div id="js-result-section" style="display: none;">
+        <!-- <p class="uk-text-medium">2. Get your SugarLink to share with anyone!</p> -->
+        <div class="uk-inline">
+          <button id="js-copy-clipboard" class="uk-form-icon uk-form-icon-flip uk-margin-medium-right" uk-icon="icon: copy" uk-tooltip="title: Copy to clipboard; delay: 200"></button>
+          <a id="js-open-newtab" class="uk-form-icon uk-form-icon-flip" href="#" target="_blank" uk-icon="icon: forward" uk-tooltip="title: Open in a new tab; delay: 200"></a>
 
-          <div class="uk-container uk-container-small uk-align-center">
-            <div id="js-countdown" class="uk-flex uk-flex-center uk-grid-small" uk-grid uk-countdown="date:">
-              <div>
-                <div class="uk-countdown-number uk-countdown-hours"></div>
-              </div>
-              <div class="uk-countdown-separator">:</div>
-              <div>
-                <div class="uk-countdown-number uk-countdown-minutes"></div>
-              </div>
-              <div class="uk-countdown-separator">:</div>
-              <div>
-                <div class="uk-countdown-number uk-countdown-seconds"></div>
-              </div>
+          <input id="js-textzone" class="uk-input uk-form-width-large uk-text-middle" type="text" placeholder="" readonly>
+        </div>
+
+        <div class="uk-container uk-container-small uk-align-center">
+          <div id="js-countdown" class="uk-flex uk-flex-center uk-grid-small" uk-grid uk-countdown="date:">
+            <div>
+              <div class="uk-countdown-number uk-countdown-hours"></div>
+            </div>
+            <div class="uk-countdown-separator">:</div>
+            <div>
+              <div class="uk-countdown-number uk-countdown-minutes"></div>
+            </div>
+            <div class="uk-countdown-separator">:</div>
+            <div>
+              <div class="uk-countdown-number uk-countdown-seconds"></div>
             </div>
           </div>
         </div>
-
-        <hr>
-
-        <p class="uk-text-medium">
-          SugarShare is &mdash; and will always be &mdash; free, but uploading and storing all these
-          sweet files takes resources, and we rely on your&nbsp;
-          <a href="https://www.buymeacoffee.com/sugarshare" target="_blank" style="color: #F0F6F6; text-decoration: underline;">support</a>
-          &nbsp;to keep SugarShare running and improving.
-        </p>
-
-        <footer>
-          <p class="uk-text-medium uk-text-center">
-            <a href="https://sugarshare.redouaneachouri.com" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Go to main site</a>
-            &nbsp;|&nbsp;
-            <a href="https://www.buymeacoffee.com/sugarshare" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Buy me a coffee</a>
-            &nbsp;|&nbsp;
-            <a href="mailto:redouane.a.achouri@gmail.com" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Feedback</a>
-          </p>
-          <p class="uk-text-medium uk-text-center">
-            Made with &#9829; by&nbsp;
-            <a href="https://www.redouaneachouri.com" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Redouane Achouri</a>
-          </p>
-        </footer>
       </div>
+
+      <hr>
+
+      <p class="uk-text-medium">
+        SugarShare is &mdash; and will always be &mdash; free, but uploading and storing all these
+        sweet files takes resources, and we rely on your
+        <a href="https://www.buymeacoffee.com/sugarshare" target="_blank" style="color: #F0F6F6; text-decoration: underline;">support</a>
+        to keep SugarShare running and improving.
+      </p>
+
+      <footer>
+        <p class="uk-text-medium uk-text-center">
+          <a href="https://sugarshare.redouaneachouri.com" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Go to main site</a>
+          &nbsp;|&nbsp;
+          <a href="https://www.buymeacoffee.com/sugarshare" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Buy me a coffee</a>
+          &nbsp;|&nbsp;
+          <a href="mailto:redouane.a.achouri@gmail.com" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Feedback</a>
+        </p>
+        <p class="uk-text-medium uk-text-center">
+          Made with &#9829; by
+          <a href="https://www.redouaneachouri.com" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Redouane Achouri</a>
+        </p>
+      </footer>
+      <!-- DEBUGGING -->
+      <!-- <textarea id="debugging" class="uk-textarea" readonly></textarea> -->
+      <!-- DEBUGGING -->
     </div>
 
     <script src="js/popup.js"></script>
