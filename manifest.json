@@ -3,9 +3,6 @@
   "description": "Create a shareable link valid for 24 hours to transfer files privately and securely!",
   "version": "1.0.0",
   "manifest_version": 3,
-  "background": {
-    "service_worker": "js/background.js"
-  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
