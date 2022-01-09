@@ -22,41 +22,47 @@
           Links are valid for 24 hours, and you can share any file up to 10 MB 😃.
         </p>
 
-        <p class="uk-text-medium">1. Select a file for upload:</p>
-        <div uk-form-custom id="js-upload" class="uk-align-center" style="background-color: #EE7B30;">
-          <input type="file">
-          <button class="uk-button uk-button-default uk-width-1-1" type="button" tabindex="-1">Select file</button>
+        <div id="js-select-section" style="display: block;">
+          <p class="uk-text-medium">1. Select a file for upload:</p>
+          <div uk-form-custom id="js-upload" class="uk-align-center" style="background-color: #EE7B30;">
+            <input type="file">
+            <button class="uk-button uk-button-default uk-width-1-1" type="button" tabindex="-1">Select file</button>
+          </div>
+
+          <progress id="js-progressbar" class="uk-progress" value="0" max="100" style="display: none;"></progress>
         </div>
 
-        <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
-  
-        <p class="uk-text-medium">2. Get your SugarLink to share with anyone!</p>
-        <div class="uk-inline">
-          <button id="js-copy-clipboard" class="uk-form-icon uk-form-icon-flip uk-margin-medium-right" uk-icon="icon: copy" uk-tooltip="title: Copy to clipboard; delay: 200"></button>
-          <a id="js-open-newtab" class="uk-form-icon uk-form-icon-flip" href="#" target="_blank" uk-icon="icon: forward" uk-tooltip="title: Open in a new tab; delay: 200"></a>
+        <div id="js-result-section" style="display: none;">
+          <p class="uk-text-medium">2. Get your SugarLink to share with anyone!</p>
+          <div class="uk-inline">
+            <button id="js-copy-clipboard" class="uk-form-icon uk-form-icon-flip uk-margin-medium-right" uk-icon="icon: copy" uk-tooltip="title: Copy to clipboard; delay: 200"></button>
+            <a id="js-open-newtab" class="uk-form-icon uk-form-icon-flip" href="#" target="_blank" uk-icon="icon: forward" uk-tooltip="title: Open in a new tab; delay: 200"></a>
 
-          <input id="js-textzone" class="uk-input uk-form-width-large uk-text-middle" type="text" placeholder="" readonly>
-        </div>
+            <input id="js-textzone" class="uk-input uk-form-width-large uk-text-middle" type="text" placeholder="" readonly>
+          </div>
 
-        <div class="uk-container uk-container-small uk-align-center">
-          <div id="js-countdown" class="uk-grid-small uk-child-width-auto uk-margin" uk-grid uk-countdown="date:" hidden>
-            <div>
-              <div class="uk-countdown-number uk-countdown-days"></div>
-            </div>
-            <div class="uk-countdown-separator">:</div>
-            <div>
-              <div class="uk-countdown-number uk-countdown-hours"></div>
-            </div>
-            <div class="uk-countdown-separator">:</div>
-            <div>
-              <div class="uk-countdown-number uk-countdown-minutes"></div>
-            </div>
-            <div class="uk-countdown-separator">:</div>
-            <div>
-              <div class="uk-countdown-number uk-countdown-seconds"></div>
+          <div class="uk-container uk-container-small uk-align-center">
+            <div id="js-countdown" class="uk-grid-small uk-child-width-auto uk-margin" uk-grid uk-countdown="date:">
+              <div>
+                <div class="uk-countdown-number uk-countdown-days"></div>
+              </div>
+              <div class="uk-countdown-separator">:</div>
+              <div>
+                <div class="uk-countdown-number uk-countdown-hours"></div>
+              </div>
+              <div class="uk-countdown-separator">:</div>
+              <div>
+                <div class="uk-countdown-number uk-countdown-minutes"></div>
+              </div>
+              <div class="uk-countdown-separator">:</div>
+              <div>
+                <div class="uk-countdown-number uk-countdown-seconds"></div>
+              </div>
             </div>
           </div>
         </div>
+
+        <hr>
 
         <p class="uk-text-medium">
           SugarShare is &mdash; and will always be &mdash; free, but uploading and storing all these

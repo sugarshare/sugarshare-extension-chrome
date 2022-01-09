@@ -3,6 +3,8 @@
 const UPLOAD_URL = 'https://sugarshare.redouaneachouri.com/upload';
 const MAX_FILE_SIZE_MB = 10;
 
+const selectSection = document.getElementById('js-select-section');
+const resultSection = document.getElementById('js-result-section');
 const progressBar = document.getElementById('js-progressbar');
 const countdown = document.getElementById('js-countdown');
 const textzone = document.getElementById('js-textzone');
@@ -14,7 +16,8 @@ UIkit.upload('#js-upload', {
   multiple: false,
 
   error: function (error) {
-    progressBar.setAttribute('hidden', 'hidden');
+    toggleDisplay(progressBar);
+    // TODO: display error section here and hide (or not?? so that users can reselect) select section
 
     const { xhr, status } = error;
 
@@ -26,7 +29,7 @@ UIkit.upload('#js-upload', {
   },
 
   loadStart: function (e) {
-    progressBar.removeAttribute('hidden');
+    toggleDisplay(progressBar);
     progressBar.max = e.total;
     progressBar.value = e.loaded;
   },
@@ -51,15 +54,15 @@ UIkit.upload('#js-upload', {
     openNewtab.setAttribute('href', url);
 
     // Display URL
-    // textzone.removeAttribute('hidden');
     textzone.setAttribute('value', url);
 
-    countdown.removeAttribute('hidden');
+    // Start countdown
     countdown.setAttribute('uk-countdown', `date: ${new Date(expiryTimestampMillis)}`);
 
     setTimeout(function () {
-        progressBar.setAttribute('hidden', 'hidden');
-    }, 1000);
+      toggleDisplay(selectSection);
+      toggleDisplay(resultSection);
+    }, 200);
   }
 });
 
@@ -80,3 +83,13 @@ const copyToClipboard = (text, tooltipElement) => {
     }
   });
 };
+
+const toggleDisplay = (element) => {
+  element.style.display = element.style.display === 'none'
+    ? 'block'
+    : 'none';
+}
+
+function debug (text) {
+  document.getElementById('debugging').value += '\n' + text;
+}
