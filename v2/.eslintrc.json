@@ -25,11 +25,16 @@
             ".tsx"
         ]
     },
+    "globals": {
+        "chrome": "readonly"
+    },
     "rules": {
+        "@typescript-eslint/no-explicit-any": ["warn"],
         "semi": ["error", "always"],
         "quotes": ["error", "single"],
-        "jsx-quotes": ["error", "prefer-double"],
+        "jsx-quotes": ["error", "prefer-single"],
         "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+        "react/jsx-fragments": ["error", "element"],
         "import/extensions": ["error", "never"],
         "import/no-unresolved": ["off"],
         "max-len": ["error", {
@@ -40,6 +45,11 @@
         }],
         "no-restricted-imports": ["error", {
             "patterns": ["@mui/*/*/*", "!@mui/material/test-utils/*"]
+        }],
+        "jsx-a11y/label-has-associated-control": ["error", {
+            "controlComponents": ["Input"],
+            "assert": "either",
+            "depth": 3
         }]
     }
 }
