@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/axios.min.js"></script>
     <script src="js/uikit.min.js"></script>
     <script src="js/uikit-icons.min.js"></script>
     <link rel="stylesheet" href="css/uikit.min.css" />
@@ -14,19 +15,18 @@
         Welcome to SugarShare!
         <span class="uk-badge" style="background-color: black;">Beta</span>
       </h4>
-      <h5>
-        SugarShare helps you quickly create a link to share files with anybody 🚀!
-      </h5>
       <p class="uk-text-medium">
-        Links are valid for 24 hours, and you can share any file up to 10 MB.
+        Create a shareable link valid for 24 hours to transfer files privately and securely 🚀!
       </p>
 
       <div id="js-select-section" style="display: block;">
         <!-- <p class="uk-text-medium">1. Select a file for upload:</p> -->
-        <div uk-form-custom id="js-upload" class="uk-align-center" style="background-color: #EE7B30;">
-          <input type="file">
-          <button class="uk-button uk-button-default uk-width-1-1" type="button" tabindex="-1">Select a file</button>
-        </div>
+        <form>
+          <div uk-form-custom class="uk-align-center" style="background-color: #EE7B30;">
+              <input id="js-file-input" type="file">
+              <button class="uk-button uk-button-default uk-width-1-1" type="button" tabindex="-1">Select</button>
+          </div>
+        </form>
 
         <progress id="js-progressbar" class="uk-progress" value="0" max="100" style="display: none;"></progress>
       </div>
@@ -60,19 +60,18 @@
       <hr>
 
       <p class="uk-text-medium">
-        SugarShare is &mdash; and will always be &mdash; free, but uploading and storing all these
-        sweet files takes resources, and we rely on your
+        SugarShare is free, but uploading and storing all these sweet files takes resources, and we rely on your
         <a href="https://www.buymeacoffee.com/sugarshare" target="_blank" style="color: #F0F6F6; text-decoration: underline;">support</a>
         to keep SugarShare running and improving.
       </p>
 
       <footer>
         <p class="uk-text-medium uk-text-center">
-          <a href="https://sugarshare.redouaneachouri.com" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Go to main site</a>
+          <a href="https://www.sugarshare.me" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Go to main site</a>
           &nbsp;|&nbsp;
           <a href="https://www.buymeacoffee.com/sugarshare" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Buy me a coffee</a>
           &nbsp;|&nbsp;
-          <a href="mailto:redouane.a.achouri@gmail.com" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Feedback</a>
+          <a href="mailto:hello@sugarshare.me" target="_blank" style="color: #F0F6F6; text-decoration: underline;">Feedback</a>
         </p>
         <p class="uk-text-medium uk-text-center">
           Made with &#9829; by
