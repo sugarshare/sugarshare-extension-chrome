@@ -1,11 +1,8 @@
 html, body {
   width: 400px;
   min-height: 300px;
-}
-
-body {
-	background-color: #009DDC;
-	color: #F0F6F6;
-	font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased;
+  /* background-color: #EBA937; //#009DDC */
+  /* color: #F0F6F6; */
+  /* font-family: 'Poppins', sans-serif; */
+  /* -webkit-font-smoothing: antialiased; */
 }
