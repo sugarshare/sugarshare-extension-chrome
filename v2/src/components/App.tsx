@@ -3,10 +3,23 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 // import Typography from '@mui/material/Typography';
 // import Link from '@mui/material/Link';
-import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+// import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import Collapse from '@mui/material/Collapse';
+import { TransitionGroup } from 'react-transition-group';
+import { v4 as uuidv4 } from 'uuid';
+
+import FileCard from './FileCard';
 import UploadButton from './UploadButton';
-// import './App.css';
+
+interface IdentifiableFile {
+  file: File;
+  uuid: string;
+}
 
 // function Copyright() {
 //   return (
@@ -22,26 +35,16 @@ import UploadButton from './UploadButton';
 // }
 
 function App() {
-  const [progressDisplay, setProgressDisplay] = useState('none');
-  const [progressVariant, setProgressVariant] = useState('indeterminate' as LinearProgressProps['variant']);
-  const [progressValue, setProgressValue] = useState(0);
+  const [files, setFiles] = useState<IdentifiableFile[]>([]);
 
-  const handleProgress = (value: number) => {
-    if (value > 0) {
-      setProgressDisplay('block');
-      setProgressVariant('determinate');
-      setProgressValue(value);
-    }
+  const handleAppendFile = (file: File) => {
+    const identifiableFile = { file, uuid: uuidv4() };
+    setFiles((prev) => [...prev, identifiableFile]);
+  };
 
-    if (value === 100) {
-      setTimeout(
-        () => {
-          setProgressDisplay('none');
-          setProgressVariant('indeterminate');
-        },
-        500,
-      );
-    }
+  const handleRemoveFile = (uuid: string) => {
+    // TODO: Handle cancel upload
+    setFiles((prev) => [...prev.filter((file: IdentifiableFile) => file.uuid !== uuid)]);
   };
 
   return (
@@ -51,10 +54,38 @@ function App() {
           Create React App example with TypeScript
         </Typography> */}
         {/* <Copyright /> */}
-        <UploadButton onProgress={handleProgress} />
-      </Box>
-      <Box sx={{ width: '100%' }}>
-        <LinearProgress variant={progressVariant} value={progressValue} sx={{ display: progressDisplay }} />
+        <List sx={{
+          width: '100%',
+          // maxHeight: 200,
+          maxHeight: 800,
+          position: 'relative',
+          overflow: 'auto',
+          '& ul': { padding: 0 },
+        }}
+        >
+          <TransitionGroup>
+            {files.map(({ file, uuid }) => (
+              <Collapse>
+                <ListItem
+                  secondaryAction={(
+                    <IconButton
+                      edge='end'
+                      aria-label='cancel'
+                      title='Cancel'
+                      onClick={() => handleRemoveFile(uuid)}
+                    >
+                      <CancelOutlinedIcon />
+                    </IconButton>
+                  )}
+                  divider
+                >
+                  <FileCard file={file} />
+                </ListItem>
+              </Collapse>
+            ))}
+          </TransitionGroup>
+        </List>
+        <UploadButton onClick={handleAppendFile} />
       </Box>
     </Container>
   );

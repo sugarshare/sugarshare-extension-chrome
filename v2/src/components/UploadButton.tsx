@@ -1,26 +1,30 @@
-import * as React from 'react';
+import React from 'react';
 import Input, { InputProps } from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import BackupIcon from '@mui/icons-material/Backup';
 
-import Client from '../libs/client';
-import { ProgressHandler } from '../libs/types';
+import { Callback } from '../libs/types';
 
 interface UploadButtonProps {
-  onProgress: ProgressHandler;
+  onClick: Callback<File>;
 }
 
-const handleUpload = (handleProgress: UploadButtonProps['onProgress']) => async (event: React.ChangeEvent<HTMLInputElement>) => {
+const handleChange = (callback: UploadButtonProps['onClick']) => async (event: React.ChangeEvent<HTMLInputElement>) => {
   const { files } = event.target;
 
   if (!files?.length) {
     // TODO
+    throw new Error('No files selected');
   }
 
-  const file = files![0];
+  for (let i = 0; i < files.length; i += 1) {
+    callback(files[i]);
+  }
 
-  const client = new Client();
-  await client.upload(file, handleProgress);
+  // const file = files![0];
+
+  // const client = new Client();
+  // await client.upload(file, handleProgress);
 
   // chrome.runtime.sendMessage(
   //   file,
@@ -28,8 +32,8 @@ const handleUpload = (handleProgress: UploadButtonProps['onProgress']) => async 
   // );
 };
 
-export default function UploadButton({ onProgress }: UploadButtonProps) {
-  const inputAttributes: InputProps['inputProps'] = {
+export default function UploadButton({ onClick: handleAppendFile }: UploadButtonProps) {
+  const inputProps: InputProps['inputProps'] = {
     multiple: false,
   };
 
@@ -37,8 +41,8 @@ export default function UploadButton({ onProgress }: UploadButtonProps) {
     <label>
       <Input
         type='file'
-        onChange={handleUpload(onProgress)}
-        inputProps={inputAttributes}
+        onChange={handleChange(handleAppendFile)}
+        inputProps={inputProps}
         sx={{ display: 'none' }}
       />
       <Button variant='outlined' component='span' endIcon={<BackupIcon />} sx={{ width: '100%' }}>

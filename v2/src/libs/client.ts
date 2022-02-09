@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { PresignedUrlBody, PresignedUrlResponse, ProgressHandler } from './types';
+import { PresignedUrlBody, PresignedUrlResponse, Callback } from './types';
 
 export default class Client {
   private readonly client: AxiosInstance;
@@ -31,7 +31,7 @@ export default class Client {
     }
   }
 
-  private async putFile(file: File, presignedUrl: PresignedUrlResponse['presignedUrl'], handleProgress: ProgressHandler) {
+  private async putFile(file: File, presignedUrl: PresignedUrlResponse['presignedUrl'], handleProgress: Callback<number>) {
     await this.client.put(presignedUrl, file, {
       onUploadProgress: (event) => {
         const progress = Math.round((event.loaded * 100) / event.total);
@@ -43,7 +43,7 @@ export default class Client {
     });
   }
 
-  public async upload(file: File, handleProgress: ProgressHandler) {
+  public async upload(file: File, handleProgress: Callback<number>) {
     const { presignedUrl } = await this.getPresignedUrl(file);
     await this.putFile(file, presignedUrl, handleProgress);
 
