@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { PresignedUrlBody, PresignedUrlResponse, Callback } from './types';
 
-export default class Client {
+export default class APIClient {
   private readonly client: AxiosInstance;
 
   constructor() {
@@ -18,20 +18,13 @@ export default class Client {
       // sizeBytes: 10000000000,
     };
 
-    try {
-      const result = await this.client.post('/init', body);
-      return result.data;
-    } catch (error) {
-      alert(error);
-      if (error instanceof Error) {
-        throw error;
-      } else {
-        throw new Error(error as string);
-      }
-    }
+    // TODO: Error handling https://axios-http.com/docs/handling_errors
+    return (await this.client.post('/init', body)).data;
   }
 
   private async putFile(file: File, presignedUrl: PresignedUrlResponse['presignedUrl'], handleProgress: Callback<number>) {
+    // TODO: Error handling https://axios-http.com/docs/handling_errors
+
     await this.client.put(presignedUrl, file, {
       onUploadProgress: (event) => {
         const progress = Math.round((event.loaded * 100) / event.total);
@@ -43,11 +36,11 @@ export default class Client {
     });
   }
 
-  public async upload(file: File, handleProgress: Callback<number>) {
+  public async upload(file: File, handleProgress: Callback<number>): Promise<string> {
     const { presignedUrl } = await this.getPresignedUrl(file);
     await this.putFile(file, presignedUrl, handleProgress);
 
-    // const url = new URL(presignedUrl);
-    // alert(`${url.hostname}${url.pathname}`);
+    const url = new URL(presignedUrl);
+    return `${url.hostname}${url.pathname}`;
   }
 }

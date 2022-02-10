@@ -20,16 +20,6 @@ const handleChange = (callback: UploadButtonProps['onClick']) => async (event: R
   for (let i = 0; i < files.length; i += 1) {
     callback(files[i]);
   }
-
-  // const file = files![0];
-
-  // const client = new Client();
-  // await client.upload(file, handleProgress);
-
-  // chrome.runtime.sendMessage(
-  //   file,
-  //   (response) => alert(`Got this response: ${JSON.stringify(response)}`),
-  // );
 };
 
 export default function UploadButton({ onClick: handleAppendFile }: UploadButtonProps) {

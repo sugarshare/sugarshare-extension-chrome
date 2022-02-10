@@ -65,7 +65,7 @@ function App() {
         >
           <TransitionGroup>
             {files.map(({ file, uuid }) => (
-              <Collapse>
+              <Collapse key={uuid}>
                 <ListItem
                   secondaryAction={(
                     <IconButton
@@ -79,7 +79,7 @@ function App() {
                   )}
                   divider
                 >
-                  <FileCard file={file} />
+                  <FileCard file={file} uuid={uuid} />
                 </ListItem>
               </Collapse>
             ))}
