@@ -13,6 +13,9 @@ export default class APIClient {
     });
   }
 
+  /**
+   * Initiate upload by fetching a presigned S3 PUT URL
+   */
   private async getPresignedUrl(file: File): Promise<PresignedUrlResponse> {
     const body: PresignedUrlBody = {
       title: file.name,
@@ -25,6 +28,9 @@ export default class APIClient {
     return (await this.client.post('/init', body)).data;
   }
 
+  /**
+   * PUT file into bucket using a presigned URL
+   */
   private async putFile(file: File, presignedUrl: PresignedUrlResponse['presignedUrl'], handleProgress: Callback<number>) {
     // TODO: Error handling https://axios-http.com/docs/handling_errors
 
@@ -39,6 +45,9 @@ export default class APIClient {
     });
   }
 
+  /**
+   * Upload file and return a shareable link
+   */
   public async upload(file: File, handleProgress: Callback<number>): Promise<string> {
     const { presignedUrl } = await this.getPresignedUrl(file);
     await this.putFile(file, presignedUrl, handleProgress);
@@ -47,6 +56,9 @@ export default class APIClient {
     return `${url.hostname}${url.pathname}`;
   }
 
+  /**
+   * Cancel all HTTP(s) requests performed by the client
+   */
   public cancel(): void {
     this.abortController.abort();
   }
