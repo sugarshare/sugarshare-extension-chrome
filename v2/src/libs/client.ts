@@ -3,10 +3,13 @@ import { PresignedUrlBody, PresignedUrlResponse, Callback } from './types';
 
 export default class APIClient {
   private readonly client: AxiosInstance;
+  private readonly abortController: AbortController;
 
   constructor() {
+    this.abortController = new AbortController();
     this.client = axios.create({
       baseURL: 'https://api.sugarshare.me',
+      signal: this.abortController.signal,
     });
   }
 
@@ -42,5 +45,9 @@ export default class APIClient {
 
     const url = new URL(presignedUrl);
     return `${url.hostname}${url.pathname}`;
+  }
+
+  public cancel(): void {
+    this.abortController.abort();
   }
 }

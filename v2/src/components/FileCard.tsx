@@ -54,7 +54,10 @@ export default function FileCard({ file, uuid }: FileCardProps) {
           }
         });
 
-      return () => {};
+      return () => {
+        // Cancel upload on user request (click on cancel button)
+        client.cancel();
+      };
     },
     [uuid],
   );

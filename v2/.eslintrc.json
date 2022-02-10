@@ -37,6 +37,7 @@
         "react/jsx-fragments": ["error", "element"],
         "import/extensions": ["error", "never"],
         "import/no-unresolved": ["off"],
+        "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
         "max-len": ["error", {
             "code": 120,
             "ignoreStrings": true,
