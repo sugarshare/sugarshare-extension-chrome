@@ -84,7 +84,7 @@ export default function FileCard({ file, uuid }: FileCardProps) {
     : (
       <Box sx={{ width: '100%' }}>
         <Card>
-          <CardContent>
+          <CardContent sx={{ p: 1, m: 0 }}>
             <TextField
               value={shareableLink}
               variant='standard'
@@ -93,7 +93,7 @@ export default function FileCard({ file, uuid }: FileCardProps) {
               aria-label='link shared file'
               // helperText='TODO'
               InputProps={{ readOnly: true }}
-              sx={{ textOverflow: 'ellipsis' }}
+              // sx={{ textOverflow: 'ellipsis' }}
               size='small'
               fullWidth
             />

@@ -67,6 +67,7 @@ function App() {
             {files.map(({ file, uuid }) => (
               <Collapse key={uuid}>
                 <ListItem
+                  sx={{ p: 0, m: 0 }}
                   secondaryAction={(
                     <IconButton
                       edge='end'
