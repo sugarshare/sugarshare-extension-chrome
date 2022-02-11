@@ -7,9 +7,11 @@ import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 
 import APIClient from '../libs/client';
+import { copyToClipboard } from '../libs/clipboard';
 
 interface FileCardProps {
   file: File;
@@ -85,7 +87,6 @@ export default function FileCard({ file, uuid }: FileCardProps) {
           <CardContent>
             <TextField
               value={shareableLink}
-              defaultValue=''
               variant='standard'
               hiddenLabel
               title='Copy to clipboard'
@@ -98,8 +99,25 @@ export default function FileCard({ file, uuid }: FileCardProps) {
             />
             <LinearProgress variant={progressVariant} value={progressValue} sx={{ display: progressDisplay }} />
           </CardContent>
-          <CardActions>
-            Bar
+          <CardActions disableSpacing sx={{ p: 0, m: 0 }}>
+            <IconButton
+              href={`https://${shareableLink}`}
+              target='_blank'
+              rel='noopener'
+              aria-label='open new tab'
+              title='Open in a new tab'
+              size='small'
+            >
+              <OpenInNewIcon />
+            </IconButton>
+            <IconButton
+              title='Copy to clipboard'
+              aria-label='copy to clipboard'
+              size='small'
+              onClick={() => copyToClipboard(shareableLink)}
+            >
+              <ContentCopyIcon />
+            </IconButton>
           </CardActions>
         </Card>
       </Box>
