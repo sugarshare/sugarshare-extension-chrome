@@ -8,7 +8,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 // import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import Collapse from '@mui/material/Collapse';
 import { TransitionGroup } from 'react-transition-group';
 import { v4 as uuidv4 } from 'uuid';
@@ -72,9 +72,10 @@ function App() {
                       edge='end'
                       aria-label='cancel'
                       title='Cancel'
+                      size='small'
                       onClick={() => handleRemoveFile(uuid)}
                     >
-                      <CancelOutlinedIcon />
+                      <CloseIcon />
                     </IconButton>
                   )}
                   divider
