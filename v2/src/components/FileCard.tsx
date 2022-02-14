@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useSnackbar } from 'notistack';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -11,7 +12,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 
 import APIClient from '../libs/client';
-import { copyToClipboard } from '../libs/clipboard';
+import Clipboard from '../libs/clipboard';
 
 interface FileCardProps {
   file: File;
@@ -28,6 +29,9 @@ export default function FileCard({ file, uuid }: FileCardProps) {
 
   // Link
   const [shareableLink, setShareableLink] = useState('');
+
+  // Notification snackbars
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(
     () => {
@@ -70,6 +74,12 @@ export default function FileCard({ file, uuid }: FileCardProps) {
     [uuid],
   );
 
+  const copyToClipboard = (text: string) => Clipboard.copy(
+    text,
+    () => enqueueSnackbar('Copied to clipboard!', { variant: 'default' }),
+    () => enqueueSnackbar('Copy failed, ensure clipboard permissions', { variant: 'default' }),
+  );
+
   // chrome.runtime.sendMessage(
   //   file,
   //   (response) => alert(`Got this response: ${JSON.stringify(response)}`),
@@ -91,11 +101,16 @@ export default function FileCard({ file, uuid }: FileCardProps) {
               hiddenLabel
               title='Copy to clipboard'
               aria-label='link shared file'
-              // helperText='TODO'
-              InputProps={{ readOnly: true }}
-              // sx={{ textOverflow: 'ellipsis' }}
               size='small'
               fullWidth
+              // helperText='TODO'
+              InputProps={{ readOnly: true }}
+              sx={{
+                textOverflow: 'ellipsis',
+                fontWeight: 'light',
+                fontSize: 8,
+              }}
+              onClick={() => copyToClipboard(shareableLink)}
             />
             <LinearProgress variant={progressVariant} value={progressValue} sx={{ display: progressDisplay }} />
           </CardContent>
