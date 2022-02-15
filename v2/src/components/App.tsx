@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TransitionGroup } from 'react-transition-group';
-import { SnackbarProvider } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -48,57 +47,48 @@ function App() {
   };
 
   return (
-    <SnackbarProvider
-      maxSnack={2}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
-      }}
-      TransitionComponent={Collapse}
-    >
-      <Container maxWidth='sm'>
-        <Box sx={{ my: 4 }}>
-          {/* <Typography variant='h5' component='h5' gutterBottom>
-            Create React App example with TypeScript
-          </Typography> */}
-          {/* <Copyright /> */}
-          <List sx={{
-            width: '100%',
-            // maxHeight: 200,
-            maxHeight: 800,
-            position: 'relative',
-            overflow: 'auto',
-            '& ul': { padding: 0 },
-          }}
-          >
-            <TransitionGroup>
-              {files.map(({ file, uuid }) => (
-                <Collapse key={uuid}>
-                  <ListItem
-                    sx={{ p: 0, m: 0 }}
-                    secondaryAction={(
-                      <IconButton
-                        edge='end'
-                        aria-label='cancel'
-                        title='Cancel'
-                        size='small'
-                        onClick={() => handleRemoveFile(uuid)}
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    )}
-                    divider
-                  >
-                    <FileCard file={file} uuid={uuid} />
-                  </ListItem>
-                </Collapse>
-              ))}
-            </TransitionGroup>
-          </List>
-          <UploadButton onClick={handleAppendFile} />
-        </Box>
-      </Container>
-    </SnackbarProvider>
+    <Container maxWidth='sm'>
+      <Box sx={{ my: 4 }}>
+        {/* <Typography variant='h5' component='h5' gutterBottom>
+          Create React App example with TypeScript
+        </Typography> */}
+        {/* <Copyright /> */}
+        <List sx={{
+          width: '100%',
+          // maxHeight: 200,
+          maxHeight: 800,
+          position: 'relative',
+          overflow: 'auto',
+          '& ul': { padding: 0 },
+        }}
+        >
+          <TransitionGroup>
+            {files.map(({ file, uuid }) => (
+              <Collapse key={uuid}>
+                <ListItem
+                  sx={{ p: 0, m: 0 }}
+                  secondaryAction={(
+                    <IconButton
+                      edge='end'
+                      aria-label='cancel'
+                      title='Cancel'
+                      size='small'
+                      onClick={() => handleRemoveFile(uuid)}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  )}
+                  divider
+                >
+                  <FileCard file={file} uuid={uuid} />
+                </ListItem>
+              </Collapse>
+            ))}
+          </TransitionGroup>
+        </List>
+        <UploadButton onClick={handleAppendFile} />
+      </Box>
+    </Container>
   );
 }
 

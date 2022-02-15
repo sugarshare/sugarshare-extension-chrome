@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useSnackbar } from 'notistack';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -30,8 +29,22 @@ export default function FileCard({ file, uuid }: FileCardProps) {
   // Link
   const [shareableLink, setShareableLink] = useState('');
 
-  // Notification snackbars
-  const { enqueueSnackbar } = useSnackbar();
+  // Show notification in helperText of a TextField
+  const [notification, setNotification] = useState<string | null>(null);
+
+  const notify = (text: string, millis = 2000) => {
+    setNotification(text);
+    setTimeout(
+      () => setNotification(null),
+      millis,
+    );
+  };
+
+  const copyToClipboard = (text: string) => Clipboard.copy(
+    text,
+    () => notify('Copied to clipboard!'),
+    () => notify('Copy failed, ensure clipboard permissions'),
+  );
 
   useEffect(
     () => {
@@ -72,12 +85,6 @@ export default function FileCard({ file, uuid }: FileCardProps) {
       };
     },
     [uuid],
-  );
-
-  const copyToClipboard = (text: string) => Clipboard.copy(
-    text,
-    () => enqueueSnackbar('Copied to clipboard!', { variant: 'default' }),
-    () => enqueueSnackbar('Copy failed, ensure clipboard permissions', { variant: 'default' }),
   );
 
   // chrome.runtime.sendMessage(
