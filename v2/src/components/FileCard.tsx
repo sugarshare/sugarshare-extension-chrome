@@ -18,15 +18,22 @@ interface FileCardProps {
   uuid: String;
 }
 
+interface ErrorData {
+  error: string;
+  hint: string | null;
+}
+
 export default function FileCard({ file, uuid }: FileCardProps) {
+  // Error information
   const [isError, setIsError] = useState(false);
+  const [errorData, setErrorData] = useState<ErrorData>({ error: 'Upload failed.', hint: null });
 
   // Loading bar
   const [progressDisplay, setProgressDisplay] = useState('block');
   const [progressVariant, setProgressVariant] = useState('indeterminate' as LinearProgressProps['variant']);
   const [progressValue, setProgressValue] = useState(0);
 
-  // Link
+  // Link to the shared file
   const [shareableLink, setShareableLink] = useState('');
 
   // Show notification in helperText of a TextField
@@ -48,6 +55,8 @@ export default function FileCard({ file, uuid }: FileCardProps) {
 
   useEffect(
     () => {
+      setIsError(false);
+
       const handleProgress = (value: number) => {
         if (value > 0) {
           setProgressVariant('determinate');
@@ -73,9 +82,32 @@ export default function FileCard({ file, uuid }: FileCardProps) {
         .catch((error: AxiosError | Error) => {
           if (axios.isAxiosError(error)) {
             setIsError(true);
-            alert(error);
+
+            if (error.response) {
+              setErrorData(error.response.data);
+              console.log(error.response);
+            } else if (error.request) {
+              setErrorData((prev) => ({
+                ...prev,
+                hint: 'Please check your network connection and retry.',
+              }));
+              console.log(error.request);
+            } else {
+              setErrorData((prev) => ({
+                ...prev,
+                hint: error.message,
+              }));
+              console.log('Error', error.message);
+            }
+
+            console.log(error.config);
           } else {
-            throw error;
+            setErrorData((prev) => ({
+              ...prev,
+              hint: 'Internal error, we are working on it.',
+            }));
+            // TODO
+            // throw error;
           }
         });
 
@@ -92,56 +124,92 @@ export default function FileCard({ file, uuid }: FileCardProps) {
   //   (response) => alert(`Got this response: ${JSON.stringify(response)}`),
   // );
 
-  return isError
-    ? (
-      <Box sx={{ width: '100%' }}>
-        Error
-      </Box>
-    )
-    : (
-      <Box sx={{ width: '100%' }}>
-        <Card>
-          <CardContent sx={{ p: 1, m: 0 }}>
-            <TextField
-              value={shareableLink}
-              variant='standard'
-              hiddenLabel
-              title='Copy to clipboard'
-              aria-label='link shared file'
-              size='small'
-              fullWidth
-              // helperText='TODO'
-              InputProps={{ readOnly: true }}
-              sx={{
-                textOverflow: 'ellipsis',
-                fontWeight: 'light',
-                fontSize: 8,
-              }}
-              onClick={() => copyToClipboard(shareableLink)}
-            />
-            <LinearProgress variant={progressVariant} value={progressValue} sx={{ display: progressDisplay }} />
-          </CardContent>
-          <CardActions disableSpacing sx={{ p: 0, m: 0 }}>
-            <IconButton
-              href={`https://${shareableLink}`}
-              target='_blank'
-              rel='noopener'
-              aria-label='open new tab'
-              title='Open in a new tab'
-              size='small'
-            >
-              <OpenInNewIcon />
-            </IconButton>
-            <IconButton
-              title='Copy to clipboard'
-              aria-label='copy to clipboard'
-              size='small'
-              onClick={() => copyToClipboard(shareableLink)}
-            >
-              <ContentCopyIcon />
-            </IconButton>
-          </CardActions>
-        </Card>
-      </Box>
-    );
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Card>
+        <CardContent sx={{ p: 1, m: 0 }}>
+          {
+            isError
+              ? (
+                <TextField
+                  error
+                  label='Error'
+                  value={errorData.error}
+                  helperText={errorData?.hint ?? null}
+                  variant='standard'
+                  size='small'
+                  fullWidth
+                  InputProps={{ readOnly: true }}
+                  sx={{
+                    textOverflow: 'ellipsis',
+                    fontWeight: 'light',
+                    fontSize: 8,
+                  }}
+                />
+              )
+              : (
+                <TextField
+                  value={shareableLink}
+                  helperText={notification}
+                  title='Copy to clipboard'
+                  aria-label='link shared file'
+                  variant='standard'
+                  size='small'
+                  hiddenLabel
+                  fullWidth
+                  // multiline
+                  // maxRows={2}
+                  // helperText='TODO'
+                  InputProps={{ readOnly: true }}
+                  sx={{
+                    textOverflow: 'ellipsis',
+                    fontWeight: 'light',
+                    fontSize: 8,
+                  }}
+                  onClick={() => copyToClipboard(shareableLink)}
+                />
+              )
+          }
+          {
+            isError && progressValue === 0
+              ? null
+              : (
+                <LinearProgress
+                  variant={progressVariant}
+                  value={progressValue}
+                  color={isError ? 'error' : 'primary'}
+                  sx={{ display: progressDisplay }}
+                />
+              )
+          }
+        </CardContent>
+        {
+          isError
+            ? null
+            : (
+              <CardActions disableSpacing sx={{ p: 0, m: 0 }}>
+                <IconButton
+                  href={`https://${shareableLink}`}
+                  target='_blank'
+                  rel='noopener'
+                  aria-label='open new tab'
+                  title='Open in a new tab'
+                  size='small'
+                >
+                  <OpenInNewIcon />
+                </IconButton>
+                <IconButton
+                  title='Copy to clipboard'
+                  aria-label='copy to clipboard'
+                  size='small'
+                  onClick={() => copyToClipboard(shareableLink)}
+                >
+                  <ContentCopyIcon />
+                </IconButton>
+              </CardActions>
+            )
+        }
+      </Card>
+    </Box>
+  );
 }
