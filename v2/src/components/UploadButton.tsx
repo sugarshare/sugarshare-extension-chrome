@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input, { InputProps } from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import BackupIcon from '@mui/icons-material/Backup';
@@ -9,20 +9,23 @@ interface UploadButtonProps {
   onClick: Callback<File>;
 }
 
-const handleChange = (callback: UploadButtonProps['onClick']) => async (event: React.ChangeEvent<HTMLInputElement>) => {
-  const { files } = event.target;
-
-  if (!files?.length) {
-    // TODO
-    throw new Error('No files selected');
-  }
-
-  for (let i = 0; i < files.length; i += 1) {
-    callback(files[i]);
-  }
-};
-
 export default function UploadButton({ onClick: handleAppendFile }: UploadButtonProps) {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (callback: UploadButtonProps['onClick']) => async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+    if (!files?.length) {
+      return;
+    }
+
+    for (let i = 0; i < files.length; i += 1) {
+      callback(files[i]);
+    }
+
+    // Allow for selecting the same file consecutively
+    setInputValue('');
+  };
+
   const inputProps: InputProps['inputProps'] = {
     multiple: false,
   };
@@ -31,6 +34,7 @@ export default function UploadButton({ onClick: handleAppendFile }: UploadButton
     <label>
       <Input
         type='file'
+        value={inputValue}
         onChange={handleChange(handleAppendFile)}
         inputProps={inputProps}
         sx={{ display: 'none' }}
