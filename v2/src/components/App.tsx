@@ -42,8 +42,17 @@ function App() {
   };
 
   const handleRemoveFile = (uuid: string) => {
-    // TODO: Handle cancel upload
     setFiles((prev) => [...prev.filter((file: IdentifiableFile) => file.uuid !== uuid)]);
+  };
+
+  const handleRetry = (uuid: string) => {
+    // Assign a new UUID to force re-rendering
+    setFiles((prev) => prev.map<IdentifiableFile>((file: IdentifiableFile) => (file.uuid !== uuid
+      ? file
+      : {
+        ...file,
+        uuid: uuidv4(),
+      })));
   };
 
   return (
@@ -80,7 +89,7 @@ function App() {
                   )}
                   divider
                 >
-                  <FileCard file={file} uuid={uuid} />
+                  <FileCard file={file} uuid={uuid} onRetry={() => handleRetry(uuid)} />
                 </ListItem>
               </Collapse>
             ))}

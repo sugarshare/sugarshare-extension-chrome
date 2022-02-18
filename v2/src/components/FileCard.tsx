@@ -5,17 +5,20 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
+import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
+import ReplayIcon from '@mui/icons-material/Replay';
 
 import APIClient from '../libs/client';
 import Clipboard from '../libs/clipboard';
+import { Callback } from '../libs/types';
 
 interface FileCardProps {
   file: File;
   uuid: String;
+  onRetry: Callback<void>;
 }
 
 interface ErrorData {
@@ -23,14 +26,14 @@ interface ErrorData {
   hint: string | null;
 }
 
-export default function FileCard({ file, uuid }: FileCardProps) {
+export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardProps) {
   // Error information
-  const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState<boolean | 'retriable' | 'non-retriable'>(false);
   const [errorData, setErrorData] = useState<ErrorData>({ error: 'Upload failed.', hint: null });
 
   // Loading bar
   const [progressDisplay, setProgressDisplay] = useState('block');
-  const [progressVariant, setProgressVariant] = useState('indeterminate' as LinearProgressProps['variant']);
+  const [progressVariant, setProgressVariant] = useState<LinearProgressProps['variant']>('indeterminate');
   const [progressValue, setProgressValue] = useState(0);
 
   // Link to the shared file
@@ -81,10 +84,16 @@ export default function FileCard({ file, uuid }: FileCardProps) {
         })
         .catch((error: AxiosError | Error) => {
           if (axios.isAxiosError(error)) {
-            setIsError(true);
+            setIsError('retriable');
 
             if (error.response) {
               setErrorData(error.response.data);
+
+              // Disallow retying for 413 Payload Too Large errors
+              if (error.response.status === 413) {
+                setIsError('non-retriable');
+              }
+
               console.log(error.response);
             } else if (error.request) {
               setErrorData((prev) => ({
@@ -184,30 +193,43 @@ export default function FileCard({ file, uuid }: FileCardProps) {
           }
         </CardContent>
         {
-          isError
+          isError === 'non-retriable'
             ? null
-            : (
-              <CardActions disableSpacing sx={{ p: 0, m: 0 }}>
-                <IconButton
-                  href={`https://${shareableLink}`}
-                  target='_blank'
-                  rel='noopener'
-                  aria-label='open new tab'
-                  title='Open in a new tab'
-                  size='small'
-                >
-                  <OpenInNewIcon />
-                </IconButton>
-                <IconButton
-                  title='Copy to clipboard'
-                  aria-label='copy to clipboard'
-                  size='small'
-                  onClick={() => copyToClipboard(shareableLink)}
-                >
-                  <ContentCopyIcon />
-                </IconButton>
-              </CardActions>
-            )
+            : isError === true || isError === 'retriable'
+              ? (
+                <CardActions disableSpacing sx={{ p: 0, m: 0 }}>
+                  <IconButton
+                    title='Retry'
+                    aria-label='retry'
+                    size='small'
+                    onClick={() => handleRetry()}
+                  >
+                    <ReplayIcon />
+                  </IconButton>
+                </CardActions>
+              )
+              : (
+                <CardActions disableSpacing sx={{ p: 0, m: 0 }}>
+                  <IconButton
+                    href={`https://${shareableLink}`}
+                    target='_blank'
+                    rel='noopener'
+                    aria-label='open new tab'
+                    title='Open in a new tab'
+                    size='small'
+                  >
+                    <OpenInNewIcon />
+                  </IconButton>
+                  <IconButton
+                    title='Copy to clipboard'
+                    aria-label='copy to clipboard'
+                    size='small'
+                    onClick={() => copyToClipboard(shareableLink)}
+                  >
+                    <ContentCopyIcon />
+                  </IconButton>
+                </CardActions>
+              )
         }
       </Card>
     </Box>
