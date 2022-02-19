@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ReplayIcon from '@mui/icons-material/Replay';
+import CloseIcon from '@mui/icons-material/Close';
 
 import APIClient from '../libs/client';
 import Clipboard from '../libs/clipboard';
@@ -19,6 +20,7 @@ interface FileCardProps {
   file: File;
   uuid: String;
   onRetry: Callback<void>;
+  onCancel: Callback<void>;
 }
 
 interface ErrorData {
@@ -26,7 +28,9 @@ interface ErrorData {
   hint: string | null;
 }
 
-export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardProps) {
+export default function FileCard({
+  file, uuid, onRetry: handleRetry, onCancel: handleCancel,
+}: FileCardProps) {
   // Error information
   const [isError, setIsError] = useState<boolean | 'retriable' | 'non-retriable'>(false);
   const [errorData, setErrorData] = useState<ErrorData>({ error: 'Upload failed.', hint: null });
@@ -200,10 +204,27 @@ export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardP
         </CardContent>
         {
           isError === 'non-retriable'
-            ? null
+            ? (
+              <IconButton
+                aria-label='cancel'
+                title='Cancel'
+                size='small'
+                onClick={() => handleCancel()}
+              >
+                <CloseIcon />
+              </IconButton>
+            )
             : isError === true || isError === 'retriable'
               ? (
                 <CardActions disableSpacing sx={{ p: 0, mx: 1 }}>
+                  <IconButton
+                    aria-label='cancel'
+                    title='Cancel'
+                    size='small'
+                    onClick={() => handleCancel()}
+                  >
+                    <CloseIcon />
+                  </IconButton>
                   <IconButton
                     title='Retry'
                     aria-label='retry'
@@ -216,6 +237,14 @@ export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardP
               )
               : (
                 <CardActions disableSpacing sx={{ p: 0, mx: 1 }}>
+                  <IconButton
+                    aria-label='cancel'
+                    title='Cancel'
+                    size='small'
+                    onClick={() => handleCancel()}
+                  >
+                    <CloseIcon />
+                  </IconButton>
                   <IconButton
                     href={`https://${shareableLink}`}
                     target='_blank'

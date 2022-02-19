@@ -7,9 +7,6 @@ import Box from '@mui/material/Box';
 // import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-// import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import Collapse from '@mui/material/Collapse';
 
 import FileCard from './FileCard';
@@ -41,7 +38,7 @@ function App() {
     setFiles((prev) => [...prev, identifiableFile]);
   };
 
-  const handleRemoveFile = (uuid: string) => {
+  const handleCancel = (uuid: string) => {
     setFiles((prev) => [...prev.filter((file: IdentifiableFile) => file.uuid !== uuid)]);
   };
 
@@ -74,22 +71,13 @@ function App() {
           <TransitionGroup>
             {files.map(({ file, uuid }) => (
               <Collapse key={uuid}>
-                <ListItem
-                  sx={{ p: 0, m: 0 }}
-                  secondaryAction={(
-                    <IconButton
-                      edge='end'
-                      aria-label='cancel'
-                      title='Cancel'
-                      size='small'
-                      onClick={() => handleRemoveFile(uuid)}
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                  )}
-                  divider
-                >
-                  <FileCard file={file} uuid={uuid} onRetry={() => handleRetry(uuid)} />
+                <ListItem sx={{ p: 0, m: 0 }} divider>
+                  <FileCard
+                    file={file}
+                    uuid={uuid}
+                    onRetry={() => handleRetry(uuid)}
+                    onCancel={() => handleCancel(uuid)}
+                  />
                 </ListItem>
               </Collapse>
             ))}
