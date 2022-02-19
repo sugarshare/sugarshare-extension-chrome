@@ -95,7 +95,6 @@ export default function FileCard({
         .catch((error: AxiosError | Error) => {
           if (axios.isAxiosError(error)) {
             setIsError('retriable');
-
             if (error.response) {
               setErrorData(error.response.data);
 
@@ -103,23 +102,17 @@ export default function FileCard({
               if (error.response.status === 413) {
                 setIsError('non-retriable');
               }
-
-              console.log(error.response);
             } else if (error.request) {
               setErrorData((prev) => ({
                 ...prev,
                 hint: 'Please check your network connection and retry.',
               }));
-              console.log(error.request);
             } else {
               setErrorData((prev) => ({
                 ...prev,
                 hint: error.message,
               }));
-              console.log('Error', error.message);
             }
-
-            console.log(error.config);
           } else {
             setErrorData((prev) => ({
               ...prev,
@@ -131,7 +124,7 @@ export default function FileCard({
         });
 
       return () => {
-        // Cancel upload on user request (click on cancel button)
+        // Cancel upload on user request (click on cancel button triggers component to deregister)
         client.cancel();
       };
     },
