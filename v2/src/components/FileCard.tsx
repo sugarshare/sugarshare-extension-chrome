@@ -202,7 +202,7 @@ export default function FileCard({
           }
         </CardContent>
         {
-          isError === 'non-retriable'
+          isError === 'non-retriable' || progressValue < 100
             ? (
               <IconButton
                 aria-label='cancel'
