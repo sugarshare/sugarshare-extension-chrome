@@ -169,7 +169,7 @@ export default function FileCard({
               : (
                 <TextField
                   value={shareableLink}
-                  helperText={notification}
+                  helperText={progressValue > 0 && progressValue < 100 ? `${progressValue}%` : notification}
                   title='Copy to clipboard'
                   aria-label='link shared file'
                   variant='filled'
