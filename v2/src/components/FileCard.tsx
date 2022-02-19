@@ -54,11 +54,17 @@ export default function FileCard({
     );
   };
 
-  const copyToClipboard = (text: string) => Clipboard.copy(
-    text,
-    () => notify('Copied to clipboard!'),
-    () => notify('Copy failed, ensure clipboard permissions'),
-  );
+  const copyToClipboard = (text: string) => {
+    if (text.length === 0) {
+      return;
+    }
+
+    Clipboard.copy(
+      text,
+      () => notify('Copied to clipboard!'),
+      () => notify('Copy failed, ensure clipboard permissions.'),
+    );
+  };
 
   useEffect(
     () => {
