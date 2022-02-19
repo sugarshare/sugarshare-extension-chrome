@@ -135,7 +135,10 @@ export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardP
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Card>
+      <Card
+        variant='outlined'
+        // sx={{ bgcolor: 'background.default' }}
+      >
         <CardContent sx={{ p: 1, m: 0 }}>
           {
             isError
@@ -145,14 +148,17 @@ export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardP
                   label='Error'
                   value={errorData.error}
                   helperText={errorData?.hint ?? null}
-                  variant='standard'
+                  variant='filled'
                   size='small'
                   fullWidth
-                  InputProps={{ readOnly: true }}
-                  sx={{
-                    textOverflow: 'ellipsis',
-                    fontWeight: 'light',
-                    fontSize: 8,
+                  InputProps={{
+                    readOnly: true,
+                    sx: {
+                      display: 'inline-block',
+                      overflow: 'hidden',
+                      fontWeight: 'light',
+                      fontSize: '0.8rem',
+                    },
                   }}
                 />
               )
@@ -162,18 +168,18 @@ export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardP
                   helperText={notification}
                   title='Copy to clipboard'
                   aria-label='link shared file'
-                  variant='standard'
+                  variant='filled'
                   size='small'
                   hiddenLabel
                   fullWidth
-                  // multiline
-                  // maxRows={2}
-                  // helperText='TODO'
-                  InputProps={{ readOnly: true }}
-                  sx={{
-                    textOverflow: 'ellipsis',
-                    fontWeight: 'light',
-                    fontSize: 8,
+                  InputProps={{
+                    readOnly: true,
+                    sx: {
+                      display: 'inline-block',
+                      overflow: 'hidden',
+                      fontWeight: 'light',
+                      fontSize: '0.8rem',
+                    },
                   }}
                   onClick={() => copyToClipboard(shareableLink)}
                 />
@@ -197,7 +203,7 @@ export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardP
             ? null
             : isError === true || isError === 'retriable'
               ? (
-                <CardActions disableSpacing sx={{ p: 0, m: 0 }}>
+                <CardActions disableSpacing sx={{ p: 0, mx: 1 }}>
                   <IconButton
                     title='Retry'
                     aria-label='retry'
@@ -209,7 +215,7 @@ export default function FileCard({ file, uuid, onRetry: handleRetry }: FileCardP
                 </CardActions>
               )
               : (
-                <CardActions disableSpacing sx={{ p: 0, m: 0 }}>
+                <CardActions disableSpacing sx={{ p: 0, mx: 1 }}>
                   <IconButton
                     href={`https://${shareableLink}`}
                     target='_blank'
