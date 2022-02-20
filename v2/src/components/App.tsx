@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 // import Typography from '@mui/material/Typography';
 // import Link from '@mui/material/Link';
+import Chip from '@mui/material/Chip';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Collapse from '@mui/material/Collapse';
@@ -55,6 +56,25 @@ function App() {
   return (
     <Container maxWidth='sm'>
       <Box sx={{ my: 4 }}>
+        <a
+          href='https://www.sugarshare.me'
+          target='_blank'
+          rel='noreferrer'
+        >
+          <img
+            src='/images/banner-v3.png'
+            alt='SugarShare logo'
+            aria-label='sugarshare logo'
+            title='Go to sugarshare.me'
+            style={{
+              width: '200px',
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          />
+        </a>
+        <Chip size='small' label='beta' />
         {/* <Typography variant='h5' component='h5' gutterBottom>
           Create React App example with TypeScript
         </Typography> */}
