@@ -36,7 +36,7 @@ export default function FileCard({
   const [errorData, setErrorData] = useState<ErrorData>({ error: 'Upload failed.', hint: null });
 
   // Loading bar
-  const [progressDisplay, setProgressDisplay] = useState('block');
+  const [progressDisplay, setProgressDisplay] = useState<'block' | 'none'>('block');
   const [progressVariant, setProgressVariant] = useState<LinearProgressProps['variant']>('indeterminate');
   const [progressValue, setProgressValue] = useState(0);
 
@@ -72,6 +72,7 @@ export default function FileCard({
 
       const handleProgress = (value: number) => {
         if (value > 0) {
+          setProgressDisplay('block');
           setProgressVariant('determinate');
           setProgressValue(value);
         }
@@ -167,8 +168,8 @@ export default function FileCard({
               )
               : (
                 <TextField
-                  value={shareableLink}
-                  helperText={progressValue > 0 && progressValue < 100 ? `${progressValue}%` : notification}
+                  value={progressValue < 100 ? 'Uploading...' : shareableLink}
+                  helperText={progressValue < 100 ? `${progressValue}%` : notification}
                   title='Copy to clipboard'
                   aria-label='link shared file'
                   variant='filled'
