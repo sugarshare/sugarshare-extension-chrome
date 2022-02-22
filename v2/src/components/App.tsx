@@ -4,8 +4,12 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 // import Typography from '@mui/material/Typography';
 // import Link from '@mui/material/Link';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 
+import TabsView from './TabsView';
 import Upload from './Upload';
+import User from './User';
 
 // function Copyright() {
 //   return (
@@ -20,7 +24,7 @@ import Upload from './Upload';
 //   );
 // }
 
-function App() {
+export default function App() {
   return (
     <Container maxWidth='sm'>
       <Box sx={{ my: 4 }}>
@@ -43,14 +47,24 @@ function App() {
           />
         </a>
         <Chip size='small' label='beta' />
+        <TabsView items={[
+          {
+            name: 'Home',
+            component: <Upload />,
+            icon: <HomeIcon />,
+          },
+          {
+            name: 'User',
+            component: <User />,
+            icon: <AccountCircleIcon />,
+          },
+        ]}
+        />
         {/* <Typography variant='h5' component='h5' gutterBottom>
           Create React App example with TypeScript
         </Typography> */}
         {/* <Copyright /> */}
-        <Upload />
       </Box>
     </Container>
   );
 }
-
-export default App;
