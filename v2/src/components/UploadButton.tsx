@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Input, { InputProps } from '@mui/material/Input';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import BackupIcon from '@mui/icons-material/Backup';
 
 import { Callback } from '../libs/types';
@@ -39,9 +40,11 @@ export default function UploadButton({ onClick: handleAppendFile }: UploadButton
         inputProps={inputProps}
         sx={{ display: 'none' }}
       />
-      <Button variant='outlined' component='span' endIcon={<BackupIcon />} sx={{ width: '100%' }}>
-        Upload
-      </Button>
+      <Tooltip title='Click to select a file'>
+        <Button variant='outlined' component='span' endIcon={<BackupIcon />} sx={{ width: '100%' }}>
+          Upload
+        </Button>
+      </Tooltip>
     </label>
   );
 }

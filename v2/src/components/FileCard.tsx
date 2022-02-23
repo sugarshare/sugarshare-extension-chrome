@@ -6,6 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
+import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -169,26 +170,27 @@ export default function FileCard({
                 />
               )
               : (
-                <TextField
-                  value={progressValue < 100 ? 'Uploading...' : shareableLink}
-                  helperText={progressValue < 100 ? `${progressValue}%` : notification}
-                  title='Copy to clipboard'
-                  aria-label='link shared file'
-                  variant='filled'
-                  size='small'
-                  hiddenLabel
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                    sx: {
-                      display: 'inline-block',
-                      overflow: 'hidden',
-                      fontWeight: 'light',
-                      fontSize: '0.8rem',
-                    },
-                  }}
-                  onClick={() => copyToClipboard(shareableLink)}
-                />
+                <Tooltip title={progressValue < 100 ? false : 'Copy to clipboard'}>
+                  <TextField
+                    value={progressValue < 100 ? 'Uploading...' : shareableLink}
+                    helperText={progressValue < 100 ? `${progressValue}%` : notification}
+                    aria-label='link shared file'
+                    variant='filled'
+                    size='small'
+                    hiddenLabel
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
+                      sx: {
+                        display: 'inline-block',
+                        overflow: 'hidden',
+                        fontWeight: 'light',
+                        fontSize: '0.8rem',
+                      },
+                    }}
+                    onClick={() => copyToClipboard(shareableLink)}
+                  />
+                </Tooltip>
               )
           }
           {
@@ -207,75 +209,83 @@ export default function FileCard({
         {
           isError === 'non-retriable' || progressValue < 100
             ? (
-              <IconButton
-                aria-label='cancel'
-                title='Cancel'
-                size='small'
-                onClick={() => handleCancel()}
-              >
-                <CloseIcon />
-              </IconButton>
+              <Tooltip title='Cancel'>
+                <IconButton
+                  aria-label='cancel'
+                  size='small'
+                  onClick={() => handleCancel()}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Tooltip>
             )
             : isError === true || isError === 'retriable'
               ? (
                 <CardActions disableSpacing sx={{ p: 0, mx: 1 }}>
-                  <IconButton
-                    aria-label='cancel'
-                    title='Cancel'
-                    size='small'
-                    onClick={() => handleCancel()}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <IconButton
-                    title='Retry'
-                    aria-label='retry'
-                    size='small'
-                    onClick={() => handleRetry()}
-                  >
-                    <ReplayIcon />
-                  </IconButton>
+                  <Tooltip title='Cancel'>
+                    <IconButton
+                      aria-label='cancel'
+                      size='small'
+                      onClick={() => handleCancel()}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title='Retry'>
+                    <IconButton
+                      aria-label='retry'
+                      size='small'
+                      onClick={() => handleRetry()}
+                    >
+                      <ReplayIcon />
+                    </IconButton>
+                  </Tooltip>
                 </CardActions>
               )
               : (
                 <CardActions disableSpacing sx={{ p: 0, mx: 1 }}>
-                  <IconButton
-                    aria-label='cancel'
-                    title='Cancel'
-                    size='small'
-                    onClick={() => handleCancel()}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <IconButton
-                    title='Open in a new tab'
-                    aria-label='open new tab'
-                    size='small'
-                    href={`https://${shareableLink}`}
-                    target='_blank'
-                    rel='noopener'
-                  >
-                    <OpenInNewIcon />
-                  </IconButton>
-                  <IconButton
-                    title='Copy to clipboard'
-                    aria-label='copy to clipboard'
-                    size='small'
-                    onClick={() => copyToClipboard(shareableLink)}
-                  >
-                    <ContentCopyIcon />
-                  </IconButton>
-                  <IconButton
-                    title='Send via Email'
-                    aria-label='send via email'
-                    size='small'
-                    href={
-                      // TODO: make sure this works
-                      `mailto:?subject=Here is your SugarShare link!&body=You can download '${file.name}' from ${shareableLink}`
-                    }
-                  >
-                    <EmailOutlinedIcon />
-                  </IconButton>
+                  <Tooltip title='Cancel'>
+                    <IconButton
+                      aria-label='cancel'
+                      size='small'
+                      onClick={() => handleCancel()}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title='Open in a new tab'>
+                    <IconButton
+                      aria-label='open new tab'
+                      size='small'
+                      href={`https://${shareableLink}`}
+                      target='_blank'
+                      rel='noopener'
+                    >
+                      <OpenInNewIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title='Copy to clipboard'>
+                    <IconButton
+                      aria-label='copy to clipboard'
+                      size='small'
+                      onClick={() => copyToClipboard(shareableLink)}
+                    >
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title='Send via Email'>
+                    <IconButton
+                      aria-label='send via email'
+                      size='small'
+                      href={
+                        // TODO: make sure this works
+                        `mailto:?subject=Here is your SugarShare link!&body=You can download '${file.name}' from ${shareableLink}`
+                      }
+                    >
+                      <EmailOutlinedIcon />
+                    </IconButton>
+
+                  </Tooltip>
                 </CardActions>
               )
         }

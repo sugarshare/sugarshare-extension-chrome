@@ -2,6 +2,7 @@ import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import Tooltip from '@mui/material/Tooltip';
 // import Typography from '@mui/material/Typography';
 // import Link from '@mui/material/Link';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -33,18 +34,19 @@ export default function App() {
           target='_blank'
           rel='noreferrer'
         >
-          <img
-            src='/images/banner-v3.png'
-            alt='SugarShare logo'
-            aria-label='sugarshare logo'
-            title='Go to sugarshare.me'
-            style={{
-              width: '200px',
-              display: 'block',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          />
+          <Tooltip title='Go to sugarshare.me'>
+            <img
+              src='/images/banner-v3.png'
+              alt='SugarShare logo'
+              aria-label='sugarshare logo'
+              style={{
+                width: '200px',
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            />
+          </Tooltip>
         </a>
         <Chip size='small' label='beta' />
         <TabsView items={[
@@ -54,7 +56,7 @@ export default function App() {
             icon: <HomeIcon />,
           },
           {
-            name: 'User',
+            name: 'Account',
             component: <User />,
             icon: <AccountCircleIcon />,
           },

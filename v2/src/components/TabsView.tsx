@@ -4,6 +4,7 @@ import React, { Fragment, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Tooltip from '@mui/material/Tooltip';
 
 interface TabViewProps {
   items: {
@@ -61,7 +62,9 @@ export default function TabsView({ items }: TabViewProps) {
         >
           {
             items.map(({ name, icon }, index) => (
-              <Tab value={index} key={name} icon={icon} title={name} {...a11yProps(name)} />
+              <Tooltip title={name} key={name}>
+                <Tab value={index} icon={icon} {...a11yProps(name)} />
+              </Tooltip>
             ))
           }
         </Tabs>
