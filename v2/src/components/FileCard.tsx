@@ -9,6 +9,7 @@ import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgres
 import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ReplayIcon from '@mui/icons-material/Replay';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -247,12 +248,12 @@ export default function FileCard({
                     <CloseIcon />
                   </IconButton>
                   <IconButton
+                    title='Open in a new tab'
+                    aria-label='open new tab'
+                    size='small'
                     href={`https://${shareableLink}`}
                     target='_blank'
                     rel='noopener'
-                    aria-label='open new tab'
-                    title='Open in a new tab'
-                    size='small'
                   >
                     <OpenInNewIcon />
                   </IconButton>
@@ -263,6 +264,17 @@ export default function FileCard({
                     onClick={() => copyToClipboard(shareableLink)}
                   >
                     <ContentCopyIcon />
+                  </IconButton>
+                  <IconButton
+                    title='Send via Email'
+                    aria-label='send via email'
+                    size='small'
+                    href={
+                      // TODO: make sure this works
+                      `mailto:?subject=Here is your SugarShare link!&body=You can download '${file.name}' from ${shareableLink}`
+                    }
+                  >
+                    <EmailOutlinedIcon />
                   </IconButton>
                 </CardActions>
               )
