@@ -10,20 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 
 import TabsView from './TabsView';
 import Upload from './Upload';
-import User from './User';
-
-// function Copyright() {
-//   return (
-//     <Typography variant='body2' color='text.secondary' align='center'>
-//       {'Copyright © '}
-//       <Link color='inherit' href='https://mui.com/'>
-//         Your Website
-//       </Link>
-//       {' '}
-//       {new Date().getFullYear()}
-//     </Typography>
-//   );
-// }
+import Account from './Account';
 
 export default function App() {
   return (
@@ -57,15 +44,11 @@ export default function App() {
           },
           {
             name: 'Account',
-            component: <User />,
+            component: <Account />,
             icon: <AccountCircleIcon />,
           },
         ]}
         />
-        {/* <Typography variant='h5' component='h5' gutterBottom>
-          Create React App example with TypeScript
-        </Typography> */}
-        {/* <Copyright /> */}
       </Box>
     </Container>
   );
