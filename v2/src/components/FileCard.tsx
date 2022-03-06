@@ -14,6 +14,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ReplayIcon from '@mui/icons-material/Replay';
 import CloseIcon from '@mui/icons-material/Close';
 
+import settings from '../settings';
 import APIClient from '../libs/client';
 import Clipboard from '../libs/clipboard';
 import { Callback } from '../libs/types';
@@ -279,12 +280,11 @@ export default function FileCard({
                       size='small'
                       href={
                         // TODO: make sure this works
-                        `mailto:?subject=Here is your SugarShare link!&body=You can download '${file.name}' from ${shareableLink}`
+                        `mailto:?subject=Here is your ${settings.decoratedProjectName} link!&body=You can download '${file.name}' from ${shareableLink}`
                       }
                     >
                       <EmailOutlinedIcon />
                     </IconButton>
-
                   </Tooltip>
                 </CardActions>
               )

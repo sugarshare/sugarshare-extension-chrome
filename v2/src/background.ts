@@ -1,23 +1,11 @@
 /// <reference types="chrome" />
 
+import { aws } from './settings';
+
 export {};
 
 /* eslint no-unused-vars: ["error", { "args": "none" }] */
 type Callback = (args: string | URL | Record<string, string>) => void;
-
-const settings = {
-  cognito: {
-    // domain: 'sugarshare.auth.eu-west-1.amazoncognito.com',
-    domain: 'auth.sugarshare.me',
-    loginEndpoint: '/login',
-    tokenEndpoint: '/oauth2/token',
-    params: {
-      client_id: 'mh81fe4s02g87iedt0pimthp4',
-      response_type: 'code', // 'code' | 'token'
-      scope: ['openid', 'email', 'profile'].join(' '),
-      redirect_uri: chrome.identity.getRedirectURL(),
-    },
-  },
 };
 
 function random(size: number) {
@@ -51,8 +39,17 @@ function messageListener(message: string, sender: chrome.runtime.MessageSender, 
   }
 
   if (message === 'authenticate') {
-    const cognitoHostedUIUrl = new URL(settings.cognito.loginEndpoint, `https://${settings.cognito.domain}`);
-    Object.entries(settings.cognito.params).forEach(([key, value]) => cognitoHostedUIUrl.searchParams.set(key, value));
+    const params = {
+      client_id: aws.cognito.userPoolWebClientId,
+      response_type: aws.cognito.oauth.responseType,
+      scope: aws.cognito.oauth.scope,
+      redirect_uri: aws.cognito.oauth.redirectSignIn,
+    };
+
+    const cognitoHostedUIUrl = new URL(aws.cognito.oauth.loginEndpoint, `https://${aws.cognito.oauth.domain}`);
+    Object.entries(params).forEach(([key, value]) => cognitoHostedUIUrl.searchParams.set(key, value));
+
+    console.log(`Requesting hosted UI using URL ${cognitoHostedUIUrl.href}`);
 
     chrome.identity.launchWebAuthFlow(
       {
@@ -67,6 +64,8 @@ function messageListener(message: string, sender: chrome.runtime.MessageSender, 
           return;
         }
 
+        console.log(`Got response URL ${responseUrl}`);
+
         const code = new URL(responseUrl).searchParams.get('code');
         if (!code) {
           // TODO
@@ -78,8 +77,8 @@ function messageListener(message: string, sender: chrome.runtime.MessageSender, 
         const oauthTokenBody = new URLSearchParams({
           code,
           grant_type: 'authorization_code',
-          client_id: settings.cognito.params.client_id,
-          redirect_uri: settings.cognito.params.redirect_uri,
+          client_id: aws.cognito.userPoolWebClientId,
+          redirect_uri: aws.cognito.oauth.redirectSignIn,
           code_verifier: pkceKey,
           // TODO
           // state: '',
@@ -93,7 +92,7 @@ function messageListener(message: string, sender: chrome.runtime.MessageSender, 
             // expires_in,
             // token_type,
           } = await (await fetch(
-            new URL(settings.cognito.tokenEndpoint, `https://${settings.cognito.domain}`).href,
+            new URL(aws.cognito.oauth.tokenEndpoint, `https://${aws.cognito.oauth.domain}`).href,
             {
               method: 'POST',
               headers: {
@@ -102,6 +101,13 @@ function messageListener(message: string, sender: chrome.runtime.MessageSender, 
               body: oauthTokenBody,
             },
           )).json();
+
+          console.log('Received auth tokens', {
+            accessToken,
+            idToken,
+            refreshToken,
+            pkceKey,
+          });
 
           chrome.storage.sync.set({
             'sugarshare-authorization': {

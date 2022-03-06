@@ -8,6 +8,8 @@ import Tooltip from '@mui/material/Tooltip';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 
+import settings from '../settings';
+
 import TabsView from './TabsView';
 import Upload from './Upload';
 import Account from './Account';
@@ -17,15 +19,15 @@ export default function App() {
     <Container maxWidth='sm'>
       <Box sx={{ my: 4 }}>
         <a
-          href='https://www.sugarshare.me'
+          href={`https://${settings.siteDomainName}`}
           target='_blank'
           rel='noreferrer'
         >
-          <Tooltip title='Go to sugarshare.me'>
+          <Tooltip title={`Go to ${settings.siteDomainName}`}>
             <img
               src='/images/banner-v3.png'
-              alt='SugarShare logo'
-              aria-label='sugarshare logo'
+              alt={`${settings.projectName} logo`}
+              aria-label={`${settings.projectName} logo`}
               style={{
                 width: '200px',
                 display: 'block',

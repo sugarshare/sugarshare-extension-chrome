@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { PresignedUrlBody, PresignedUrlResponse, Callback } from './types';
+import settings from '../settings';
 
 export default class APIClient {
   private readonly client: AxiosInstance;
@@ -8,7 +9,7 @@ export default class APIClient {
   constructor() {
     this.abortController = new AbortController();
     this.client = axios.create({
-      baseURL: 'https://api.sugarshare.me',
+      baseURL: `https://${settings.apiDomainName}`,
       signal: this.abortController.signal,
     });
   }
