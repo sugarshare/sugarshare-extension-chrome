@@ -1,5 +1,6 @@
 /// <reference types="chrome" />
 
+import log from '../log';
 import { aws } from '../../settings';
 import { Message, Callback } from './types';
 
@@ -35,7 +36,10 @@ export default function authenticate(message: Message, sendResponse: Callback) {
   const cognitoHostedUIUrl = new URL(aws.cognito.oauth.loginEndpoint, `https://${aws.cognito.oauth.domain}`);
   Object.entries(params).forEach(([key, value]) => cognitoHostedUIUrl.searchParams.set(key, value));
 
-  console.log(`Requesting hosted UI using URL ${cognitoHostedUIUrl.href}`, message);
+  log.debug('Requesting hosted UI', {
+    url: cognitoHostedUIUrl.href,
+    ...message,
+  });
 
   chrome.identity.launchWebAuthFlow(
     {
@@ -45,12 +49,15 @@ export default function authenticate(message: Message, sendResponse: Callback) {
     async (responseUrl?: string) => {
       if (!responseUrl) {
         // TODO
-        console.log(chrome.runtime.lastError, message);
+        log.error(chrome.runtime.lastError?.message ?? 'Error while launching web auth flow', { ...message });
         sendResponse('Could not authenticate');
         return;
       }
 
-      console.log(`Got response URL ${responseUrl}`, message);
+      log.debug('Got response URL', {
+        responseUrl,
+        ...message,
+      });
 
       const code = new URL(responseUrl).searchParams.get('code');
       if (!code) {
@@ -88,12 +95,7 @@ export default function authenticate(message: Message, sendResponse: Callback) {
           },
         )).json();
 
-        console.log('Received auth tokens', {
-          accessToken,
-          idToken,
-          refreshToken,
-          pkceKey,
-        }, message);
+        log.debug('Received auth tokens', { ...message });
 
         chrome.storage.sync.set({
           [message.storageKey]: {
@@ -105,7 +107,7 @@ export default function authenticate(message: Message, sendResponse: Callback) {
         });
       } catch (error) {
         // TODO
-        console.error('Failed to fetch authorization tokens', error, message);
+        log.error('Failed to fetch authorization tokens', { ...message }, error as Error);
       }
     },
   );
