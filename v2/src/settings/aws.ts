@@ -1,3 +1,5 @@
+import project from './project';
+
 export default {
   region: 'eu-west-1',
   cognito: {
@@ -6,7 +8,7 @@ export default {
     identityPoolId: '<identityPoolId>',
     oauth: {
       // domain: 'sugarshare.auth.eu-west-1.amazoncognito.com',
-      domain: 'auth.sugarshare.me',
+      domain: project.authDomainName,
       loginEndpoint: '/login',
       tokenEndpoint: '/oauth2/token',
       responseType: 'code',

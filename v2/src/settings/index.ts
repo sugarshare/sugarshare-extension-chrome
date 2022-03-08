@@ -1,11 +1,4 @@
-import aws from './aws';
+import project from './project';
 
-export { aws };
-export default {
-  projectName: 'sugarshare',
-  decoratedProjectName: 'SugarShare',
-  rootDomainName: 'sugarshare.me',
-  siteDomainName: 'www.sugarshare.me',
-  apiDomainName: 'api.sugarshare.me',
-  authDomainName: aws.cognito.oauth.domain,
-} as const;
+export { default as aws } from './aws';
+export default project;
