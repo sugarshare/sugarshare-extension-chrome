@@ -1,9 +1,9 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 
 import settings from '../settings';
+import BottomButton from './BottomButton';
 
 export default function Account() {
   const handleLogin = () => {
