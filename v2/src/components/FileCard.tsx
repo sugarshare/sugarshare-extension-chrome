@@ -35,8 +35,8 @@ export default function FileCard({
   file, uuid, onRetry: handleRetry, onCancel: handleCancel,
 }: FileCardProps) {
   // Error information
-  const [isError, setIsError] = useState<boolean | 'retriable' | 'non-retriable'>(false);
-  const [errorData, setErrorData] = useState<ErrorData>({ error: 'Upload failed.', hint: null });
+  const [isError, setIsError] = useState<'retriable' | 'non-retriable' | boolean>(false);
+  const [errorData, setErrorData] = useState<ErrorData>({ error: 'Upload failed', hint: null });
 
   // Loading bar
   const [progressDisplay, setProgressDisplay] = useState<'block' | 'none'>('block');
@@ -99,12 +99,18 @@ export default function FileCard({
         .catch((error: AxiosError | Error) => {
           if (axios.isAxiosError(error)) {
             setIsError('retriable');
+
             if (error.response) {
               setErrorData(error.response.data);
 
-              // Disallow retying for 413 Payload Too Large errors
               if (error.response.status === 413) {
+                // Disallow retying for 413 Payload Too Large errors
                 setIsError('non-retriable');
+              } else if (error.response.status === 401) {
+                setErrorData({
+                  error: 'Missing credentials',
+                  hint: 'Please make sure to log in before continuing.',
+                });
               }
             } else if (error.request) {
               setErrorData((prev) => ({
@@ -195,6 +201,7 @@ export default function FileCard({
               )
           }
           {
+            // Display progress bar depending on error state and progress value
             isError && progressValue === 0
               ? null
               : (
@@ -208,7 +215,8 @@ export default function FileCard({
           }
         </CardContent>
         {
-          isError === 'non-retriable' || progressValue < 100
+          // If there is a non-retriable error
+          isError === 'non-retriable' // || progressValue < 100
             ? (
               <Tooltip title='Cancel'>
                 <IconButton
@@ -220,7 +228,8 @@ export default function FileCard({
                 </IconButton>
               </Tooltip>
             )
-            : isError === true || isError === 'retriable'
+            // If there is a retriable or any other error
+            : isError === 'retriable' || isError === true
               ? (
                 <CardActions disableSpacing sx={{ p: 0, mx: 1 }}>
                   <Tooltip title='Cancel'>
