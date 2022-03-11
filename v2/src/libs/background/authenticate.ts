@@ -1,5 +1,6 @@
 /// <reference types="chrome" />
 
+import Auth from '../auth';
 import log from '../log';
 import { aws } from '../../settings';
 import { Message, Callback } from './types';
@@ -97,17 +98,15 @@ export default function authenticate(message: Message, sendResponse: Callback) {
 
         log.debug('Received auth tokens', { ...message });
 
-        chrome.storage.sync.set({
-          [message.storageKey]: {
-            accessToken,
-            idToken,
-            refreshToken,
-            pkceKey,
-          },
+        new Auth().set({
+          accessToken,
+          idToken,
+          refreshToken,
+          pkceKey,
         });
       } catch (error) {
         // TODO
-        log.error('Failed to fetch authorization tokens', { ...message }, error as Error);
+        log.error('Error while fetching authentication tokens', { ...message }, error as Error);
       }
     },
   );
