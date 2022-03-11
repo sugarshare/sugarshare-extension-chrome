@@ -1,6 +1,3 @@
-// import Amplify, { Auth, Hub } from 'aws-amplify';
-// import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-
 import {
   CognitoAccessToken,
   CognitoIdToken,
@@ -11,37 +8,7 @@ import {
 } from 'amazon-cognito-identity-js';
 
 import log from './log';
-import { AuthenticationError } from './errors';
 import { aws } from '../settings';
-
-// try {
-//   Amplify.configure({
-//     Auth: {
-//       region: aws.region,
-//       identityPoolId: aws.cognito.identityPoolId,
-//       userPoolId: aws.cognito.userPoolId,
-//       userPoolWebClientId: aws.cognito.userPoolWebClientId,
-//       mandatorySignIn: true,
-
-//       // // OPTIONAL - customized storage object
-//       // storage: MyStorage,
-
-//       // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
-//       authenticationFlowType: 'USER_PASSWORD_AUTH',
-
-//       oauth: {
-//         domain: aws.cognito.oauth.domain,
-//         // scope: aws.cognito.oauth.scope,
-//         scope: aws.cognito.oauth.scope.split(' '),
-//         redirectSignIn: aws.cognito.oauth.redirectSignIn,
-//         redirectSignOut: aws.cognito.oauth.redirectSignOut,
-//         responseType: aws.cognito.oauth.responseType,
-//       },
-//     },
-//   });
-// } catch (error) {
-//   alert(error);
-// }
 
 interface TokenSet {
   accessToken: string;
@@ -91,27 +58,9 @@ export default class Auth {
   }
 
   /**
-   * Refresh expired tokens if refresh token is available
-   */
-  private async refresh() {
-    if (!this.accessToken) {
-      throw new AuthenticationError('Missing access token');
-    }
-
-    try {
-      // TODO
-      alert(`${this.accessToken.getExpiration()} | ${Date.now()}`);
-    } catch (error) {
-      alert(error);
-    }
-  }
-
-  /**
    * Assign tokens
    */
-  private assign(tokens: TokenSet) {
-    const { accessToken, idToken, refreshToken } = tokens;
-
+  private assign({ accessToken, idToken, refreshToken }: TokenSet) {
     this.accessToken = new CognitoAccessToken({ AccessToken: accessToken });
     this.idToken = new CognitoIdToken({ IdToken: idToken });
 
@@ -156,10 +105,8 @@ export default class Auth {
             reject(new AuthenticationError(chrome.runtime.lastError?.message ?? 'Unknown error while loading tokens from storage'));
           }
 
-          // TODO
-          alert(JSON.stringify(tokens));
-
           if (Object.keys(tokens ?? {}).length === 0) {
+            // Note this error message is used for matching elsewhere
             reject(new AuthenticationError('Cannot find tokens in storage'));
           }
 
@@ -272,43 +219,6 @@ export default class Auth {
     }
     return this.idToken.payload.email;
   }
-
-  // static setListener() {
-  //   AmplifyHub.listen('auth', ({ payload: { event, data } }) => {
-  //     switch (event) {
-  //       case 'signIn':
-  //         console.log('user signed in', data);
-  //         alert('user signed in');
-  //         break;
-  //       case 'signUp':
-  //         console.log('user signed up', data);
-  //         alert('user signed up');
-  //         break;
-  //       case 'signOut':
-  //         console.log('user signed out', data);
-  //         alert('user signed out');
-  //         break;
-  //       case 'signIn_failure':
-  //         console.log('user sign in failed', data);
-  //         alert('user sign in failed');
-  //         break;
-  //       case 'tokenRefresh':
-  //         console.log('token refresh succeeded', data);
-  //         alert('token refresh succeeded');
-  //         break;
-  //       case 'tokenRefresh_failure':
-  //         console.log('token refresh failed', data);
-  //         alert('token refresh failed');
-  //         break;
-  //       case 'configured':
-  //         console.log('the Auth module is configured', data);
-  //         alert('the Auth module is configured');
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   });
-  // }
 }
 
 export function useAuth() {}
