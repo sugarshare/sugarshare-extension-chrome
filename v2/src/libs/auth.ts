@@ -183,16 +183,69 @@ export default class Auth {
   }
 
   /**
+   * Refresh expired tokens if refresh token is available
+   *
+   * If refresh token is expired, return an error message that can be handled and a 'session expired' message can be displayed accordingly
+   *
+   * Reference: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html
+   */
+  private async refresh() {
+    return new Promise((resolve, reject) => {
+      if (!this.accessToken || !this.refreshToken || !this.user) {
+        resolve(false);
+        return;
+      }
+
+      // Proactively refresh when tokens have a remaining validity period of 2 minutes
+      // Reference: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html
+      if (Date.now() < (this.accessToken.getExpiration() - 2 * 60) * 1000) {
+        resolve(true);
+        return;
+      }
+
+      this.user.refreshSession(
+        this.refreshToken,
+        async (error, session: CognitoUserSession) => {
+          if (error) {
+            // TODO signout in case refresh token expired
+            alert(error);
+            reject(error);
+          } else {
+            this.session = session;
+            this.accessToken = session.getAccessToken();
+            this.idToken = session.getIdToken();
+
+            const tokens: TokenSet = {
+              accessToken: session.getAccessToken().getJwtToken(),
+              idToken: session.getIdToken().getJwtToken(),
+              refreshToken: session.getRefreshToken().getToken(),
+              // pkceKey: it should be safe to erase it when overriding tokens
+            };
+            await this.store(tokens);
+
+            resolve(true);
+          }
+        },
+      );
+    });
+  }
+
+  /**
+   * Return a JWT access token dynamically refreshed
+   */
+  public async getAuthorizationToken() {
+    if (!this.accessToken) {
+      throw new AuthenticationError('Missing access token');
+    }
+
+    await this.refresh();
+    return this.accessToken.getJwtToken();
+  }
+
+  /**
    * Sign out user and remove tokens from storage
    */
   public signOut() {
-    if (!this.user) {
-      // TODO
-      // throw new AuthenticationError('Missing user');
-      return;
-    }
-
-    this.user.signOut();
     this._isAuthenticated = false;
     log.debug('User signed out');
 
@@ -218,15 +271,6 @@ export default class Auth {
       throw new AuthenticationError('Missing ID token');
     }
     return this.idToken.payload.email;
-  }
-
-  get jwtToken() {
-    if (!this.accessToken) {
-      throw new AuthenticationError('Missing access token');
-    }
-
-    // await this.refresh();
-    return this.accessToken.getJwtToken();
   }
 
   // static setListener() {
