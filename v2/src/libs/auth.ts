@@ -50,6 +50,13 @@ interface TokenSet {
   pkceKey?: string;
 }
 
+export class AuthenticationError extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = 'AuthenticationError';
+  }
+}
+
 export default class Auth {
   private readonly storageKey: string;
   private _isAuthenticated: boolean;
