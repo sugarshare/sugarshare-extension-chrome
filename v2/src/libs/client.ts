@@ -44,14 +44,13 @@ export default class APIClient {
       await this.auth.load();
       authorizationToken = await this.auth.getAuthorizationToken();
     } catch (error) {
-      if (error instanceof AuthenticationError && error.message === 'Cannot find tokens in storage') {
-        // Skip
+      if (error instanceof AuthenticationError && error.message.match(/Cannot find tokens in storage/i)) {
+        // Skip and a 401 will be returned from the API and displayed
       } else {
         throw error;
       }
     }
 
-    // TODO: Error handling https://axios-http.com/docs/handling_errors
     return (await this.client.post(
       '/init',
       body,
@@ -67,8 +66,6 @@ export default class APIClient {
    * PUT file into bucket using a presigned URL
    */
   private async putFile(file: File, presignedUrl: PresignedUrlResponse['presignedUrl'], handleProgress: Callback<number>) {
-    // TODO: Error handling https://axios-http.com/docs/handling_errors
-
     await this.client.put(presignedUrl, file, {
       onUploadProgress: (event) => {
         const progress = Math.round((event.loaded * 100) / event.total);

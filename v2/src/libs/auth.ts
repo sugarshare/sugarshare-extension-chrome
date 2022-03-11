@@ -145,17 +145,18 @@ export default class Auth {
 
       // Proactively refresh when tokens have a remaining validity period of 2 minutes
       // Reference: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html
-      if (Date.now() < (this.accessToken.getExpiration() - 2 * 60) * 1000) {
+      if (!this.isSessionExpired()) {
         resolve(true);
         return;
       }
+
+      log.debug('Requesting a tokens refresh');
 
       this.user.refreshSession(
         this.refreshToken,
         async (error, session: CognitoUserSession) => {
           if (error) {
-            // TODO signout in case refresh token expired
-            alert(error);
+            // NotAuthorizedException: Refresh Token has expired
             reject(error);
           } else {
             this.session = session;
@@ -175,6 +176,23 @@ export default class Auth {
         },
       );
     });
+  }
+
+  /**
+   * Check if access token is expired
+   *
+   * Tokens should be proactively refreshed when having a remaining validity period of 2 minutes
+   * Reference: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html
+   */
+  public isSessionExpired() {
+    if (!this.accessToken) {
+      throw new AuthenticationError('Missing access token');
+    }
+
+    if (Date.now() < (this.accessToken.getExpiration() - 2 * 60) * 1000) {
+      return false;
+    }
+    return true;
   }
 
   /**

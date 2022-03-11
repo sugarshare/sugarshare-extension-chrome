@@ -124,10 +124,19 @@ export default function FileCard({
               }));
             }
           } else {
-            setErrorData((prev) => ({
-              ...prev,
-              hint: 'Internal error, we are working on it.',
-            }));
+            setIsError('retriable');
+
+            if (error.name === 'NotAuthorizedException' && error.message.match(/Refresh Token has expired/i)) {
+              setErrorData({
+                error: 'Your session has expired',
+                hint: 'Please make sure to log in to refresh your session.',
+              });
+            } else {
+              setErrorData((prev) => ({
+                ...prev,
+                hint: 'Internal error, we are working on it.',
+              }));
+            }
             // TODO
             // throw error;
           }
