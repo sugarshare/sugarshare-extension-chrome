@@ -8,37 +8,26 @@ import Tooltip from '@mui/material/Tooltip';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 
+import settings from '../settings';
+
 import TabsView from './TabsView';
 import Upload from './Upload';
-import User from './User';
-
-// function Copyright() {
-//   return (
-//     <Typography variant='body2' color='text.secondary' align='center'>
-//       {'Copyright © '}
-//       <Link color='inherit' href='https://mui.com/'>
-//         Your Website
-//       </Link>
-//       {' '}
-//       {new Date().getFullYear()}
-//     </Typography>
-//   );
-// }
+import Account from './Account';
 
 export default function App() {
   return (
     <Container maxWidth='sm'>
       <Box sx={{ my: 4 }}>
         <a
-          href='https://www.sugarshare.me'
+          href={`https://${settings.siteDomainName}`}
           target='_blank'
           rel='noreferrer'
         >
-          <Tooltip title='Go to sugarshare.me'>
+          <Tooltip title={`Go to ${settings.siteDomainName}`}>
             <img
               src='/images/banner-v3.png'
-              alt='SugarShare logo'
-              aria-label='sugarshare logo'
+              alt={`${settings.projectName} logo`}
+              aria-label={`${settings.projectName} logo`}
               style={{
                 width: '200px',
                 display: 'block',
@@ -57,15 +46,11 @@ export default function App() {
           },
           {
             name: 'Account',
-            component: <User />,
+            component: <Account />,
             icon: <AccountCircleIcon />,
           },
         ]}
         />
-        {/* <Typography variant='h5' component='h5' gutterBottom>
-          Create React App example with TypeScript
-        </Typography> */}
-        {/* <Copyright /> */}
       </Box>
     </Container>
   );

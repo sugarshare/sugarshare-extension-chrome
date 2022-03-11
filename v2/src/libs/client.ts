@@ -1,14 +1,30 @@
 import axios, { AxiosInstance } from 'axios';
-import { PresignedUrlBody, PresignedUrlResponse, Callback } from './types';
+
+import settings from '../settings';
+import Auth, { AuthenticationError } from './auth';
+import { Callback } from './types';
+
+interface PresignedUrlBody {
+  title: string;
+  fileType: string;
+  sizeBytes: number;
+}
+
+interface PresignedUrlResponse {
+  uuid: string;
+  presignedUrl: string;
+}
 
 export default class APIClient {
   private readonly client: AxiosInstance;
+  private readonly auth: Auth;
   private readonly abortController: AbortController;
 
   constructor() {
     this.abortController = new AbortController();
+    this.auth = new Auth();
     this.client = axios.create({
-      baseURL: 'https://api.sugarshare.me',
+      baseURL: `https://${settings.apiDomainName}`,
       signal: this.abortController.signal,
     });
   }
@@ -21,11 +37,30 @@ export default class APIClient {
       title: file.name,
       fileType: file.type,
       sizeBytes: file.size,
-      // sizeBytes: 10000000000,
     };
 
+    let authorizationToken = '';
+    try {
+      await this.auth.load();
+      authorizationToken = await this.auth.getAuthorizationToken();
+    } catch (error) {
+      if (error instanceof AuthenticationError && error.message === 'Cannot find tokens in storage') {
+        // Skip
+      } else {
+        throw error;
+      }
+    }
+
     // TODO: Error handling https://axios-http.com/docs/handling_errors
-    return (await this.client.post('/init', body)).data;
+    return (await this.client.post(
+      '/init',
+      body,
+      {
+        headers: {
+          ...(authorizationToken.length && { Authorization: `Bearer ${authorizationToken}` }),
+        },
+      },
+    )).data;
   }
 
   /**
