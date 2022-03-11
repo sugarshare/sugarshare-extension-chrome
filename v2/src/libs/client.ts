@@ -1,6 +1,18 @@
 import axios, { AxiosInstance } from 'axios';
-import { PresignedUrlBody, PresignedUrlResponse, Callback } from './types';
+
 import settings from '../settings';
+import { Callback } from './types';
+
+interface PresignedUrlBody {
+  title: string;
+  fileType: string;
+  sizeBytes: number;
+}
+
+interface PresignedUrlResponse {
+  uuid: string;
+  presignedUrl: string;
+}
 
 export default class APIClient {
   private readonly client: AxiosInstance;
