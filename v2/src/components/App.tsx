@@ -1,10 +1,9 @@
 import React from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
 import Tooltip from '@mui/material/Tooltip';
 // import Typography from '@mui/material/Typography';
-// import Link from '@mui/material/Link';
+import Link from '@mui/material/Link';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 
@@ -18,11 +17,7 @@ export default function App() {
   return (
     <Container maxWidth='sm'>
       <Box sx={{ my: 4 }}>
-        <a
-          href={`https://${settings.siteDomainName}`}
-          target='_blank'
-          rel='noreferrer'
-        >
+        <Link href={`https://${settings.siteDomainName}`} target='_blank'>
           <Tooltip title={`Go to ${settings.siteDomainName}`}>
             <img
               src='/images/banner-v3.png'
@@ -36,8 +31,7 @@ export default function App() {
               }}
             />
           </Tooltip>
-        </a>
-        <Chip size='small' label='beta' />
+        </Link>
         <TabsView items={[
           {
             name: 'Home',

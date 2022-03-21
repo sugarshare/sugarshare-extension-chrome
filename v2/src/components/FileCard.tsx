@@ -278,7 +278,6 @@ export default function FileCard({
                       size='small'
                       href={`https://${shareableLink}`}
                       target='_blank'
-                      rel='noopener'
                     >
                       <OpenInNewIcon />
                     </IconButton>
