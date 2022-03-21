@@ -189,11 +189,11 @@ export default function FileCard({
                 <Tooltip title={progressValue < 100 ? false : 'Copy to clipboard'}>
                   <TextField
                     value={progressValue < 100 ? 'Uploading...' : shareableLink}
+                    label={file.name ?? null}
                     helperText={progressValue < 100 ? `${progressValue}%` : notification}
                     aria-label='link shared file'
                     variant='filled'
                     size='small'
-                    hiddenLabel
                     fullWidth
                     InputProps={{
                       readOnly: true,
