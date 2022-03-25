@@ -1,4 +1,6 @@
 import React from 'react';
+import Rollbar, { Configuration as RollbarCOnfiguration } from 'rollbar';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
@@ -14,38 +16,60 @@ import Upload from './Upload';
 import Account from './Account';
 
 export default function App() {
+  const rollbarConfig: RollbarCOnfiguration = {
+    accessToken: '<accessToken>',
+    environment: settings.environment,
+    enabled: true,
+    autoInstrument: true,
+    captureUsername: true,
+    captureEmail: true,
+    captureIp: true,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+  };
+
+  const rollbar = new Rollbar(rollbarConfig);
+
   return (
-    <Container maxWidth='sm'>
-      <Box sx={{ my: 4 }}>
-        <Link href={`https://${settings.siteDomainName}`} target='_blank'>
-          <Tooltip title={`Go to ${settings.siteDomainName}`}>
-            <img
-              src='/images/banner-v3.png'
-              alt={`${settings.projectName} logo`}
-              aria-label={`${settings.projectName} logo`}
-              style={{
-                width: '200px',
-                display: 'block',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
+    <RollbarProvider instance={rollbar}>
+      {/*
+        TODO
+        fallbackUI
+      */}
+      <ErrorBoundary>
+        <Container maxWidth='sm'>
+          <Box sx={{ my: 4 }}>
+            <Link href={`https://${settings.siteDomainName}`} target='_blank'>
+              <Tooltip title={`Go to ${settings.siteDomainName}`}>
+                <img
+                  src='/images/banner-v3.png'
+                  alt={`${settings.projectName} logo`}
+                  aria-label={`${settings.projectName} logo`}
+                  style={{
+                    width: '200px',
+                    display: 'block',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                  }}
+                />
+              </Tooltip>
+            </Link>
+            <TabsView items={[
+              {
+                name: 'Home',
+                component: <Upload />,
+                icon: <HomeIcon />,
+              },
+              {
+                name: 'Account',
+                component: <Account />,
+                icon: <AccountCircleIcon />,
+              },
+            ]}
             />
-          </Tooltip>
-        </Link>
-        <TabsView items={[
-          {
-            name: 'Home',
-            component: <Upload />,
-            icon: <HomeIcon />,
-          },
-          {
-            name: 'Account',
-            component: <Account />,
-            icon: <AccountCircleIcon />,
-          },
-        ]}
-        />
-      </Box>
-    </Container>
+          </Box>
+        </Container>
+      </ErrorBoundary>
+    </RollbarProvider>
   );
 }

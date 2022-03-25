@@ -21,7 +21,8 @@
     "storage"
   ],
   "host_permissions": [
-    "https://*.sugarshare.me/"
+    "https://*.sugarshare.me/",
+    "https://api.rollbar.com/"
   ],
   "icons": {
     "16": "/images/logo-16x16.png",

@@ -63,6 +63,7 @@ export default function authenticate(message: Message, sendResponse: Callback) {
       const code = new URL(responseUrl).searchParams.get('code');
       if (!code) {
         // TODO
+        log.error('Could not get code authorization parameter');
         throw new Error('Missing code authorization parameter');
       }
 
