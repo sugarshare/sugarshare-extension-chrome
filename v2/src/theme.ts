@@ -6,12 +6,12 @@ const theme = createTheme({
     fontFamily: 'Poppins',
   },
   palette: {
-    background: {
-      // paper: '#009DDC',
-      default: '#EBA937', // For buttons ##3779eb
+    primary: {
+      // main: '#60594D', // Umber
+      main: '#000000DE',
     },
-    text: {
-      // primary: '#F0F6F6',
+    background: {
+      default: '#EBA937',
     },
   },
 });
