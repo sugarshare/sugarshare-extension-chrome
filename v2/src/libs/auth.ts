@@ -26,7 +26,7 @@ export class AuthenticationError extends Error {
 
 export default class Auth {
   private readonly storageKey: string;
-  private _isAuthenticated: boolean;
+  private isAuthed: boolean;
   private accessToken?: CognitoAccessToken;
   private idToken?: CognitoIdToken;
   private refreshToken?: CognitoRefreshToken;
@@ -36,7 +36,7 @@ export default class Auth {
 
   constructor({ storageKey = 'sugarshare.authentication' } = {}) {
     this.storageKey = storageKey;
-    this._isAuthenticated = false;
+    this.isAuthed = false;
   }
 
   /**
@@ -89,7 +89,7 @@ export default class Auth {
 
     this.user.setSignInUserSession(this.session);
 
-    this._isAuthenticated = true;
+    this.isAuthed = true;
     log.debug('Tokens assigned from parameters');
   }
 
@@ -211,7 +211,7 @@ export default class Auth {
    * Sign out user and remove tokens from storage
    */
   public signOut() {
-    this._isAuthenticated = false;
+    this.isAuthed = false;
     log.debug('User signed out');
 
     chrome.storage.sync.remove([this.storageKey], () => {
@@ -220,7 +220,7 @@ export default class Auth {
   }
 
   get isAuthenticated() {
-    return this._isAuthenticated;
+    return this.isAuthed;
   }
 
   get username() {
