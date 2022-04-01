@@ -3,12 +3,15 @@
   "description": "Create a shareable link valid for 24 hours to transfer files privately and securely!",
   "version": "0.1.0",
   "manifest_version": 3,
+  "homepage_url": "https://www.sugarshare.me/",
+  "incognito": "spanning",
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_popup": "index.html",
     "default_title": "SugarShare, file sharing made simple",
+    "default_locale": "en",
     "default_icon": {
       "16": "/images/logo-16x16.png",
       "32": "/images/logo-32x32.png",
