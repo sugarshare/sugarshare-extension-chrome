@@ -5,7 +5,7 @@ import '@fontsource/poppins';
 import { ThemeProvider } from '@mui/material/styles';
 
 import './index.css';
-import App from './components/App';
+import App from './App';
 import theme from './theme';
 import reportWebVitals from './reportWebVitals';
 

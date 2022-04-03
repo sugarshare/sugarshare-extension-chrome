@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import Collapse from '@mui/material/Collapse';
 
 import FileCard from './FileCard';
-import UploadButton from './UploadButton';
+import UploadButton from '../components/UploadButton';
 
 interface IdentifiableFile {
   file: File;

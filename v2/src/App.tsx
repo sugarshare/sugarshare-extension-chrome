@@ -9,11 +9,11 @@ import HomeIcon from '@mui/icons-material/Home';
 
 import RollbarClient from 'clients/RollbarClient';
 
-import settings from '../settings';
+import settings from './settings';
 
-import TabsView from './TabsView';
-import Upload from './Upload';
-import Account from './Account';
+import TabsView from './components/TabsView';
+import Upload from './features/Upload';
+import Account from './features/Account';
 
 export default function App() {
   return (
