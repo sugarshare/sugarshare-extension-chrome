@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Input, { InputProps } from '@mui/material/Input';
+import Input from '@mui/material/Input';
 import Tooltip from '@mui/material/Tooltip';
 import BackupIcon from '@mui/icons-material/Backup';
 
@@ -27,17 +27,13 @@ export default function UploadButton({ onClick: handleAppendFile }: UploadButton
     setInputValue('');
   };
 
-  const inputProps: InputProps['inputProps'] = {
-    multiple: false,
-  };
-
   return (
     <label>
       <Input
         type='file'
         value={inputValue}
         onChange={handleChange(handleAppendFile)}
-        inputProps={inputProps}
+        inputProps={{ multiple: false }}
         sx={{ display: 'none' }}
       />
       <Tooltip title='Click to select a file'>

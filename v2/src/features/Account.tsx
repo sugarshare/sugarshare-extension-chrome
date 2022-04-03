@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import BottomButton from './BottomButton';
+import BottomButton from '../components/BottomButton';
 import Auth, { AuthenticationError } from '../libs/auth';
 
 const CHROME_AUTHENTICATE = () => chrome.runtime.sendMessage({ action: 'authenticate' });
