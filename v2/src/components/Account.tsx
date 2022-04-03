@@ -48,7 +48,16 @@ export default function Account() {
   }, []);
 
   if (!isAuthenticated) {
-    return null;
+    return (
+      <BottomButton
+        variant='contained'
+        onClick={CHROME_AUTHENTICATE}
+        startIcon={<LoginIcon />}
+        sx={{ my: 2 }}
+      >
+        Log in or Sign up
+      </BottomButton>
+    );
   }
 
   return (
