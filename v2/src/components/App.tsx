@@ -1,13 +1,13 @@
 import React from 'react';
-import Rollbar, { Configuration as RollbarCOnfiguration } from 'rollbar';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
-// import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
+
+import RollbarClient from 'clients/RollbarClient';
 
 import settings from '../settings';
 
@@ -16,22 +16,8 @@ import Upload from './Upload';
 import Account from './Account';
 
 export default function App() {
-  const rollbarConfig: RollbarCOnfiguration = {
-    accessToken: '<accessToken>',
-    environment: settings.environment,
-    enabled: true,
-    autoInstrument: true,
-    captureUsername: true,
-    captureEmail: true,
-    captureIp: true,
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-  };
-
-  const rollbar = new Rollbar(rollbarConfig);
-
   return (
-    <RollbarProvider instance={rollbar}>
+    <RollbarProvider instance={RollbarClient}>
       {/*
         TODO
         fallbackUI
