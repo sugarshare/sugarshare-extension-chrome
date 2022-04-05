@@ -108,12 +108,12 @@ export default class Auth {
           if (Object.keys(tokens ?? {}).length === 0) {
             // Note this error message is used for matching elsewhere
             reject(new AuthenticationError('Cannot find tokens in storage'));
+          } else {
+            log.debug('Tokens loaded from storage');
+            this.assign(tokens);
+
+            resolve(this.storageKey);
           }
-
-          log.debug('Tokens loaded from storage');
-          this.assign(tokens);
-
-          resolve(this.storageKey);
         },
       );
     });
