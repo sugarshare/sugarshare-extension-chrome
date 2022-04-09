@@ -22,30 +22,28 @@ export default function Upload() {
   };
 
   const handleCancel = (uuid: string) => {
-    setFiles((prev) => [...prev.filter((file: IdentifiableFile) => file.uuid !== uuid)]);
+    setFiles((prev) => [
+      ...prev.filter((file: IdentifiableFile) => file.uuid !== uuid),
+    ]);
   };
 
   const handleRetry = (uuid: string) => {
     // Assign a new UUID to force re-rendering
-    setFiles((prev) => prev.map<IdentifiableFile>((file: IdentifiableFile) => (file.uuid !== uuid
-      ? file
-      : {
-        ...file,
-        uuid: uuidv4(),
-      })));
+    setFiles((prev) =>
+      prev.map<IdentifiableFile>((file: IdentifiableFile) =>
+        file.uuid !== uuid
+          ? file
+          : {
+              ...file,
+              uuid: uuidv4(),
+            }
+      )
+    );
   };
 
   return (
     <Fragment>
-      <List sx={{
-        width: '100%',
-        // maxHeight: 200,
-        maxHeight: 800,
-        position: 'relative',
-        overflow: 'auto',
-        '& ul': { padding: 0 },
-      }}
-      >
+      <List>
         <TransitionGroup>
           {files.map(({ file, uuid }) => (
             <Collapse key={uuid}>
