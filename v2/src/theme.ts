@@ -7,12 +7,17 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      // main: '#60594D', // Umber
-      main: '#000000DE',
+      main: '#eba937',
+      contrastText: '#1E1608',
+      light: '#ffda68',
+      dark: '#b47a00',
     },
-    background: {
-      default: '#EBA937',
-    },
+    secondary: {
+      main: '#201613',
+      contrastText: '#FFFFFF',
+      light: '#131d20',
+      dark: '#201d13',
+    }
   },
 });
 
