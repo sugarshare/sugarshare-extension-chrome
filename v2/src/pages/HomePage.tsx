@@ -1,7 +1,7 @@
 import Layout from 'components/Layout';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import Upload from 'features/Upload';
+import UploadList from 'features/UploadList';
 import { useAuth } from 'providers/AuthProvider';
 
 const CHROME_SIGNOUT = () => chrome.runtime.sendMessage({ action: 'signout' });
@@ -28,7 +28,7 @@ export default function HomePage() {
     >
       <Wrapper>
         <Typography variant='body1'>Welcome {authState.user}!</Typography>
-        <Upload />
+        <UploadList />
       </Wrapper>
     </Layout>
   );
