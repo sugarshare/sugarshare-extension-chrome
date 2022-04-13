@@ -1,7 +1,7 @@
 import React from 'react';
 import { AxiosError } from 'axios';
 import UploadButtonBase from './components/UploadButtonBase';
-import SugarShareCient from 'clients/SugarShareClient';
+import SugarShareClient from 'clients/SugarShareClient';
 import uploadReducer from './reducer';
 import { SugarFileState } from './types';
 import FileCard from './components/FileCard';
