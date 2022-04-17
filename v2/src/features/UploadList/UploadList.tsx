@@ -62,7 +62,7 @@ export default function UploadList() {
 
       dispatch({ type: 'TRY_UPLOAD', payload: { file, uuid } });
 
-      SugarShareCient.upload(file, (progress) => {
+      SugarShareClient.upload(file, (progress) => {
         dispatch({
           type: 'UPDATE_PROGRESS',
           payload: { uuid, progress },

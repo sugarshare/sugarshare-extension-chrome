@@ -1,3 +1,1 @@
-export ( default as UploadButton } from './UploadList';
-
-export default UploadButton;
+export { default } from './UploadList';
