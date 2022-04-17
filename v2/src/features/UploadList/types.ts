@@ -1,11 +1,27 @@
+export type ErrorState = null | 'retriable' | 'non-retriable';
+
 export type Action =
-  | { type: 'TRY_UPLOAD'; payload: { file: File, uuid: string } }
+  | { type: 'TRY_UPLOAD'; payload: { file: File; uuid: string } }
   | { type: 'CANCEL_UPLOAD'; payload: { uuid: string } }
   | {
       type: 'SET_SHAREABLE_LINK';
       payload: { uuid: string; shareableLink: string };
     }
-  | { type: 'SET_ERROR'; payload: { uuid: string; error: string } };
+  | {
+      type: 'SET_ERROR';
+      payload: {
+        uuid: string;
+        error: {
+          state: ErrorState;
+          text: string;
+          hint?: string;
+        };
+      };
+    }
+  | {
+      type: 'UPDATE_PROGRESS';
+      payload: { uuid: string; progress: number };
+    };
 
 export type SugarFileState = {
   file: File;
@@ -15,8 +31,9 @@ export type SugarFileState = {
     state: boolean;
     progress: number;
   };
-  hasError: {
-    state: boolean;
-    error?: string;
+  error: {
+    state: ErrorState;
+    text?: string;
+    hint?: string;
   };
 };

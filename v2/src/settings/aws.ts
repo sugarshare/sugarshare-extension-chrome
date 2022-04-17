@@ -13,8 +13,8 @@ export default {
       tokenEndpoint: '/oauth2/token',
       responseType: 'code',
       scope: ['openid', 'email', 'profile'].join(' '),
-      redirectSignIn: chrome.identity.getRedirectURL(),
-      redirectSignOut: chrome.identity.getRedirectURL(),
+      redirectSignIn: chrome?.identity?.getRedirectURL(),
+      redirectSignOut: chrome?.identity?.getRedirectURL(),
     },
   },
 } as const;
