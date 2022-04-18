@@ -22,7 +22,10 @@ const generateErrorPayload = (error: AxiosError | Error) => {
   if (axios.isAxiosError(error)) {
     if (error.response) {
       errorPayload.text = error.response.data;
-      if (error.response.status === 413) {
+      if (error.response.status === 502) {
+        errorPayload.text = 'Internal server error.';
+        errorPayload.hint = 'Internal error, we are working on it.';
+      } else if (error.response.status === 413) {
         // Disallow retying for 413 Payload Too Large errors
         errorPayload.state = 'non-retriable';
       } else if (error.response.status === 401) {
