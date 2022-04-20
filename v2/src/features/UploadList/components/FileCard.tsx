@@ -79,7 +79,7 @@ export default function FileCard({ data, onCancel, onRetry }: Props) {
             <CloseIcon />
           </IconButton>
         </Tooltip>
-        {isError && (
+        {!isError && (
           <React.Fragment>
             <Tooltip title='Open in a new tab'>
               <IconButton
