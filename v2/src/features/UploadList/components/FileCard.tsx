@@ -60,7 +60,7 @@ export default function FileCard({ data, onCancel, onRetry }: Props) {
 
         {isUploading && (
           <LinearProgress
-            variant={upload.progress === 100 ? 'determinate' : 'indeterminate'}
+            variant={upload.progress === 100 ? 'indeterminate' : 'determinate'}
             value={upload.progress}
             color={error.state ? 'error' : 'primary'}
           />
