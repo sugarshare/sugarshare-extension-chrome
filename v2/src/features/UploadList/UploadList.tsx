@@ -58,33 +58,36 @@ export default function UploadList() {
     [] as SugarFileState[]
   );
 
+  const uploadFileToApi = (file: File, uuid: string) => {
+    SugarShareClient.upload(file, (progress) => {
+      dispatch({
+        type: 'UPDATE_PROGRESS',
+        payload: { uuid, progress },
+      });
+    })
+      .then((link: string) => {
+        dispatch({
+          type: 'SET_SHAREABLE_LINK',
+          payload: { uuid, shareableLink: link },
+        });
+      })
+      .catch((error: AxiosError | Error) => {
+        const errorPayload = generateErrorPayload(error);
+
+        dispatch({
+          type: 'SET_ERROR',
+          payload: { uuid, error: errorPayload },
+        });
+      });
+  };
+
   const uploadFile = (fileList: FileList) => {
     for (let i = 0; i < fileList.length; i += 1) {
       const file = fileList[i];
       const uuid = uuidv4();
 
       dispatch({ type: 'TRY_UPLOAD', payload: { file, uuid } });
-
-      SugarShareClient.upload(file, (progress) => {
-        dispatch({
-          type: 'UPDATE_PROGRESS',
-          payload: { uuid, progress },
-        });
-      })
-        .then((link: string) => {
-          dispatch({
-            type: 'SET_SHAREABLE_LINK',
-            payload: { uuid, shareableLink: link },
-          });
-        })
-        .catch((error: AxiosError | Error) => {
-          const errorPayload = generateErrorPayload(error);
-
-          dispatch({
-            type: 'SET_ERROR',
-            payload: { uuid, error: errorPayload },
-          });
-        });
+      uploadFileToApi(file, uuid);
     }
   };
 
@@ -95,6 +98,11 @@ export default function UploadList() {
     });
   };
 
+  const retryUpload = (file: File, uuid: string) => {
+    dispatch({ type: 'RETRY_UPLOAD', payload: { uuid } });
+    uploadFileToApi(file, uuid);
+  };
+
   return (
     <React.Fragment>
       {files.length > 0 &&
@@ -103,7 +111,7 @@ export default function UploadList() {
             key={file.uuid}
             data={file}
             onCancel={() => removeFile(file.uuid)}
-            onRetry={() => {}}
+            onRetry={() => retryUpload(file.file, file.uuid)}
           />
         ))}
       <UploadButtonBase onClick={uploadFile} />

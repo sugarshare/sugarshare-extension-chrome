@@ -2,6 +2,7 @@ export type ErrorState = null | 'retriable' | 'non-retriable';
 
 export type Action =
   | { type: 'TRY_UPLOAD'; payload: { file: File; uuid: string } }
+  | { type: 'RETRY_UPLOAD'; payload: { uuid: string } }
   | { type: 'CANCEL_UPLOAD'; payload: { uuid: string } }
   | {
       type: 'SET_SHAREABLE_LINK';

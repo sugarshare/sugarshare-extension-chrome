@@ -22,6 +22,29 @@ export default function uploadReducer(
       return [newFile, ...state];
     }
 
+
+    case 'RETRY_UPLOAD': {
+      const { uuid } = action.payload;
+      
+      const newState = state.map((file) => {
+        if (file.uuid === uuid) {
+          return {
+            ...file,
+            upload: {
+              state: true,
+              progress: 0,
+            },
+            error: {
+              state: null,
+            },
+          };
+        }
+        return file;
+      });
+
+      return newState;
+    }
+
     case 'SET_SHAREABLE_LINK': {
       const { uuid, shareableLink } = action.payload;
       const newState = state.map((file) => {
