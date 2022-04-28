@@ -3,9 +3,9 @@ import project from './project';
 export default {
   region: 'eu-west-1',
   cognito: {
-    userPoolId: 'eu-west-1_moMhmGiiW',
-    userPoolWebClientId: 'mh81fe4s02g87iedt0pimthp4',
-    identityPoolId: 'eu-west-1:1b171e76-e79a-4b1a-b04d-61af893e959f',
+    userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
+    userPoolWebClientId: process.env.REACT_APP_COGNITO_USER_POOL_CLIENT_ID,
+    identityPoolId: process.env.REACT_APP_COGNITO_IDENTITY_POOL_ID,
     oauth: {
       // domain: 'sugarshare.auth.eu-west-1.amazoncognito.com',
       domain: project.authDomainName,

@@ -2,7 +2,7 @@ import Rollbar, { Configuration as RollbarCOnfiguration } from 'rollbar';
 import settings from 'settings';
 
 const rollbarConfig: RollbarCOnfiguration = {
-  accessToken: '6edddab8e0ec49ac9ee569ec8218a0c5',
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
   environment: settings.environment,
   enabled: true,
   autoInstrument: true,

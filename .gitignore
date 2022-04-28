@@ -24,3 +24,6 @@ yarn-error.log*
 
 # editor
 .vscode
+.gitsecret/keys/random_seed
+!*.secret
+.env
