@@ -1,5 +1,6 @@
 import React from 'react';
-import Auth from 'libs/auth';
+import Auth, { AuthenticationError } from 'libs/auth';
+import log from 'libs/log';
 
 type Action =
   | { type: 'SIGN_IN'; payload: { email: string } }
@@ -66,7 +67,11 @@ function AuthProvider({ children }: AuthProviderProps) {
         if (auth.isSessionExpired()) dispatch({ type: 'SESSION_EXPIRED' });
       })
       .catch((error) => {
-        console.error('Auth Error:', error);
+        if (error instanceof AuthenticationError && error.message.match(/Cannot find tokens in storage/i)) {
+          // Skip as it means tokens have not been requested and stored yet
+        } else {
+          log.warn('Authentication Error', {}, error);
+        }
       });
   }, []);
 
