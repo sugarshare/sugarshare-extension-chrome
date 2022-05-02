@@ -52,7 +52,7 @@ const generateErrorPayload = (error: AxiosError | Error) => {
   return errorPayload;
 };
 
-const LOCAL_STORAGE_KEY = 'sugar-share-files';
+const LOCAL_STORAGE_KEY = 'sugarshare.files';
 
 const setOnLocalStorage = (key: string, value: any) => {
   if (chrome.storage) {
