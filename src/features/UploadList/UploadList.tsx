@@ -54,26 +54,10 @@ const generateErrorPayload = (error: AxiosError | Error) => {
 
 const LOCAL_STORAGE_KEY = 'sugarshare.files';
 
-const setOnLocalStorage = (key: string, value: any) => {
-  if (chrome.storage) {
-    chrome.storage.local.set({ key: value }, function () {
-      console.log(`Saved ${key} to local storage`, value);
-    });
-  } else {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  }
-};
 
 const getOnlocalStorage = (key: string) => {
-  if (chrome.storage) {
-    chrome.storage.local.get([key], function (result) {
-      console.log(`Retrieved ${key} from local storage`, result);
-      return result;
-    });
-  } else {
-    const result = window.localStorage.getItem(key) || '[]';
-    return JSON.parse(result);
-  }
+  const result = window.localStorage.getItem(key) || '[]';
+  return JSON.parse(result);
 };
 
 const INIT_STATE = getOnlocalStorage(LOCAL_STORAGE_KEY)
@@ -85,7 +69,7 @@ export default function UploadList() {
 
   React.useEffect(() => {
     const syncStateWithStorage = () => {
-      setOnLocalStorage(LOCAL_STORAGE_KEY, files);
+      window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(files));
     };
 
     syncStateWithStorage();
