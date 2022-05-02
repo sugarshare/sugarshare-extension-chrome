@@ -10,8 +10,8 @@ type Action =
 type Dispatch = (action: Action) => void;
 
 type State = {
-  isAuthenticated: boolean;
   user: string | null;
+  isAuthenticated: boolean;
   isSessionExpired: boolean;
 };
 
@@ -61,10 +61,13 @@ function AuthProvider({ children }: AuthProviderProps) {
     auth
       .load()
       .then(() => {
-        if (auth.isAuthenticated)
+        if (auth.isAuthenticated) {
           dispatch({ type: 'SIGN_IN', payload: { email: auth.email } });
+        }
 
-        if (auth.isSessionExpired()) dispatch({ type: 'SESSION_EXPIRED' });
+        if (auth.isSessionExpired()) {
+          dispatch({ type: 'SESSION_EXPIRED' });
+        }
       })
       .catch((error) => {
         if (error instanceof AuthenticationError && error.message.match(/Cannot find tokens in storage/i)) {

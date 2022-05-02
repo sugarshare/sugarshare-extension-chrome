@@ -3,7 +3,7 @@ import HomePage from 'pages/HomePage';
 import { useAuth } from 'providers/AuthProvider';
 
 export default function App() {
-  const {state: authState} = useAuth();
+  const { state: authState } = useAuth();
 
   if (
     authState.user !== null &&

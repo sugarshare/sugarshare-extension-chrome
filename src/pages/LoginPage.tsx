@@ -1,7 +1,9 @@
-import Layout from 'components/Layout';
 import { styled } from '@mui/material/styles';
-import { Typography, Button } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
+
+import Layout from 'components/Layout';
 
 const CHROME_AUTHENTICATE = () =>
   chrome.runtime.sendMessage({ action: 'authenticate' });
