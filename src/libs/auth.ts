@@ -49,6 +49,7 @@ export default class Auth {
         () => {
           if (chrome.runtime.lastError) {
             reject(chrome.runtime.lastError?.message ?? 'Unknown error while storing tokens');
+            return;
           }
 
           resolve(this.storageKey);
@@ -103,11 +104,13 @@ export default class Auth {
         ({ [this.storageKey]: tokens }: { [key: string]: TokenSet }) => {
           if (chrome.runtime.lastError) {
             reject(new AuthenticationError(chrome.runtime.lastError?.message ?? 'Unknown error while loading tokens from storage'));
+            return;
           }
 
           if (Object.keys(tokens ?? {}).length === 0) {
             // Note this error message is used for matching elsewhere
             reject(new AuthenticationError('Cannot find tokens in storage'));
+            return;
           }
 
           log.debug('Tokens loaded from storage');
@@ -185,7 +188,7 @@ export default class Auth {
    * Reference: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html
    */
   public isSessionExpired() {
-    if (!this.accessToken) {
+    if (!this?.accessToken) {
       throw new AuthenticationError('Missing access token');
     }
 
