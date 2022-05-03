@@ -1,6 +1,6 @@
 {
-  "name": "SugarShare! - beta",
-  "description": "Create a shareable link valid for 24 hours to transfer files privately and securely!",
+  "name": "SugarShare",
+  "description": "Share large files privately and securely across the globe.",
   "version": "0.1.0",
   "manifest_version": 3,
   "homepage_url": "https://www.sugarshare.me/",
@@ -10,7 +10,7 @@
   },
   "action": {
     "default_popup": "index.html",
-    "default_title": "SugarShare, file sharing made simple",
+    "default_title": "SugarShare is file sharing made easy",
     "default_locale": "en",
     "default_icon": {
       "16": "/images/logo-16x16.png",
