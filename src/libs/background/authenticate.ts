@@ -49,7 +49,6 @@ export default function authenticate(message: Message, sendResponse: Callback) {
     },
     async (responseUrl?: string) => {
       if (!responseUrl) {
-        // TODO
         log.error(chrome.runtime.lastError?.message ?? 'Error while launching web auth flow', { ...message });
         sendResponse('Could not authenticate');
         return;
