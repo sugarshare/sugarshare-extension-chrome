@@ -13,6 +13,7 @@ interface PresignedUrlBody {
 interface PresignedUrlResponse {
   uuid: string;
   presignedUrl: string;
+  shareableLink: string;
 }
 
 class SugarShareClient {
@@ -81,8 +82,12 @@ class SugarShareClient {
    * Upload file and return a shareable link
    */
   public async upload(file: File, handleProgress: Callback<number>): Promise<string> {
-    const { presignedUrl } = await this.getPresignedUrl(file);
+    const { presignedUrl, shareableLink } = await this.getPresignedUrl(file);
     await this.putFile(file, presignedUrl, handleProgress);
+
+    if (shareableLink) {
+      return shareableLink;
+    }
 
     const url = new URL(presignedUrl);
     return `${url.hostname}${url.pathname}`;
