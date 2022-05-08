@@ -60,9 +60,8 @@ const getOnlocalStorage = (key: string) => {
   return JSON.parse(result);
 };
 
-const INIT_STATE = getOnlocalStorage(LOCAL_STORAGE_KEY)
-  ? (getOnlocalStorage(LOCAL_STORAGE_KEY) as SugarFileState[])
-  : ([] as SugarFileState[]);
+const cache = getOnlocalStorage(LOCAL_STORAGE_KEY);
+const INIT_STATE = cache ? cache : ([] as SugarFileState[]);
 
 export default function UploadList() {
   const [files, dispatch] = React.useReducer(uploadReducer, INIT_STATE);
