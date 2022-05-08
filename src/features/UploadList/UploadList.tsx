@@ -52,11 +52,27 @@ const generateErrorPayload = (error: AxiosError | Error) => {
   return errorPayload;
 };
 
+const LOCAL_STORAGE_KEY = 'sugarshare.files';
+
+
+const getOnlocalStorage = (key: string) => {
+  const result = window.localStorage.getItem(key) || '[]';
+  return JSON.parse(result);
+};
+
+const cache = getOnlocalStorage(LOCAL_STORAGE_KEY);
+const INIT_STATE = cache ? cache : ([] as SugarFileState[]);
+
 export default function UploadList() {
-  const [files, dispatch] = React.useReducer(
-    uploadReducer,
-    [] as SugarFileState[]
-  );
+  const [files, dispatch] = React.useReducer(uploadReducer, INIT_STATE);
+
+  React.useEffect(() => {
+    const syncStateWithStorage = () => {
+      window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(files));
+    };
+
+    syncStateWithStorage();
+  }, [files]);
 
   const uploadFileToApi = (file: File, uuid: string) => {
     SugarShareClient.upload(file, (progress) => {
