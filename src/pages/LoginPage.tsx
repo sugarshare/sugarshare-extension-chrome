@@ -31,7 +31,7 @@ export default function LoginPage() {
           startIcon={<LoginIcon />}
           onClick={CHROME_AUTHENTICATE}
         >
-          Log in or Sign up
+          Log in
         </Button>
       </Wrapper>
     </Layout>
