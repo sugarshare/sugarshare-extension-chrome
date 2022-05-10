@@ -227,14 +227,6 @@ export default class Auth {
     return this.isAuthed;
   }
 
-  get username() {
-    if (!this.idToken) {
-      throw new AuthenticationError('Missing ID token');
-    }
-    // TODO get user name
-    return this.idToken.payload['cognito:username'];
-  }
-
   get email() {
     if (!this.idToken) {
       throw new AuthenticationError('Missing ID token');
@@ -242,5 +234,3 @@ export default class Auth {
     return this.idToken.payload.email;
   }
 }
-
-export function useAuth() {}

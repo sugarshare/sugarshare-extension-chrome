@@ -5,8 +5,7 @@ import LoginIcon from '@mui/icons-material/Login';
 
 import Layout from 'components/Layout';
 
-const CHROME_AUTHENTICATE = () =>
-  chrome.runtime.sendMessage({ action: 'authenticate' });
+const CHROME_AUTHENTICATE = () => chrome.runtime.sendMessage({ action: 'authenticate' });
 
 const Wrapper = styled('article')(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
