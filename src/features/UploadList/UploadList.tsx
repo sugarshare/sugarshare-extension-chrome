@@ -1,12 +1,12 @@
 import React from 'react';
-import axios from 'axios';
-import { AxiosError } from 'axios';
-import UploadButtonBase from './components/UploadButtonBase';
+import axios, { AxiosError } from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+
 import SugarShareClient from 'clients/SugarShareClient';
+import UploadButtonBase from './components/UploadButtonBase';
+import FileCard from './components/FileCard';
 import uploadReducer from './reducer';
 import { SugarFileState, ErrorState } from './types';
-import FileCard from './components/FileCard';
-import { v4 as uuidv4 } from 'uuid';
 
 const generateErrorPayload = (error: AxiosError | Error) => {
   let errorPayload: {
@@ -29,7 +29,7 @@ const generateErrorPayload = (error: AxiosError | Error) => {
         // Disallow retying for 413 Payload Too Large errors
         errorPayload.state = 'non-retriable';
       } else if (error.response.status === 401) {
-        errorPayload.text = 'Missing credentials';
+        errorPayload.text = 'Wrong or missing credentials';
         errorPayload.hint = 'Please make sure to log in before continuing.';
       }
     } else if (error.request) {
@@ -81,20 +81,20 @@ export default function UploadList() {
         payload: { uuid, progress },
       });
     })
-      .then((link: string) => {
-        dispatch({
-          type: 'SET_SHAREABLE_LINK',
-          payload: { uuid, shareableLink: link },
-        });
-      })
-      .catch((error: AxiosError | Error) => {
-        const errorPayload = generateErrorPayload(error);
-
-        dispatch({
-          type: 'SET_ERROR',
-          payload: { uuid, error: errorPayload },
-        });
+    .then((link: string) => {
+      dispatch({
+        type: 'SET_SHAREABLE_LINK',
+        payload: { uuid, shareableLink: link },
       });
+    })
+    .catch((error: AxiosError | Error) => {
+      const errorPayload = generateErrorPayload(error);
+
+      dispatch({
+        type: 'SET_ERROR',
+        payload: { uuid, error: errorPayload },
+      });
+    });
   };
 
   const uploadFile = (fileList: FileList) => {

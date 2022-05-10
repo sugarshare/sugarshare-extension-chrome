@@ -7,6 +7,7 @@ export default function uploadReducer(
   switch (action.type) {
     case 'TRY_UPLOAD': {
       const { file, uuid } = action.payload;
+
       const newFile: SugarFileState = {
         file: file,
         shareableLink: '',
@@ -19,6 +20,7 @@ export default function uploadReducer(
           state: null,
         },
       };
+
       return [newFile, ...state];
     }
 
@@ -47,6 +49,7 @@ export default function uploadReducer(
 
     case 'SET_SHAREABLE_LINK': {
       const { uuid, shareableLink } = action.payload;
+
       const newState = state.map((file) => {
         if (file.uuid === uuid) {
           return {
@@ -56,6 +59,7 @@ export default function uploadReducer(
         }
         return file;
       });
+
       return newState;
     }
 
