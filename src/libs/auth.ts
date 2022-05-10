@@ -14,7 +14,6 @@ interface TokenSet {
   accessToken: string;
   idToken: string;
   refreshToken?: string;
-  pkceKey?: string;
 }
 
 export class AuthenticationError extends Error {
@@ -141,7 +140,7 @@ export default class Auth {
    */
   private async refresh() {
     return new Promise((resolve, reject) => {
-      if (!this.accessToken || !this.refreshToken || !this.user) {
+      if (!this.refreshToken || !this.user) {
         resolve(false);
         return;
       }
@@ -161,45 +160,47 @@ export default class Auth {
           if (error) {
             // NotAuthorizedException: Refresh Token has expired
             reject(error);
-          } else {
-            this.session = session;
-            this.accessToken = session.getAccessToken();
-            this.idToken = session.getIdToken();
-
-            const tokens: TokenSet = {
-              accessToken: session.getAccessToken().getJwtToken(),
-              idToken: session.getIdToken().getJwtToken(),
-              refreshToken: session.getRefreshToken().getToken(),
-              // pkceKey: it should be safe to erase it when overriding tokens
-            };
-            await this.store(tokens);
-
-            resolve(true);
+            return;
           }
+
+          this.session = session;
+          this.accessToken = session.getAccessToken();
+          this.idToken = session.getIdToken();
+
+          const tokens: TokenSet = {
+            accessToken: session.getAccessToken().getJwtToken(),
+            idToken: session.getIdToken().getJwtToken(),
+            refreshToken: session.getRefreshToken().getToken(),
+          };
+          await this.store(tokens);
+
+          resolve(true);
         },
       );
     });
   }
 
   /**
-   * Check if access token is expired
+   * Check if tokens are expired
    *
    * Tokens should be proactively refreshed when having a remaining validity period of 2 minutes
    * Reference: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html
    */
   public isSessionExpired() {
-    if (!this?.accessToken) {
+    if (!this.accessToken) {
       throw new AuthenticationError('Missing access token');
     }
 
-    if (Date.now() < (this.accessToken.getExpiration() - 2 * 60) * 1000) {
+    const TWO_MINUTES = 2 * 60;
+    if (Date.now() < (this.accessToken.getExpiration() - TWO_MINUTES) * 1000) {
       return false;
     }
+
     return true;
   }
 
   /**
-   * Return a JWT access token dynamically refreshed
+   * Return a JWT authorization token dynamically refreshed
    */
   public async getAuthorizationToken() {
     if (!this.accessToken) {
