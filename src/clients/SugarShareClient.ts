@@ -5,9 +5,9 @@ import Auth, { AuthenticationError } from 'libs/auth';
 import { Callback } from 'libs/types';
 
 interface PresignedUrlBody {
-  title: string;
+  filename: string;
   fileType: string;
-  sizeBytes: number;
+  fileSizeBytes: number;
 }
 
 interface PresignedUrlResponse {
@@ -35,9 +35,9 @@ class SugarShareClient {
    */
   private async getPresignedUrl(file: File): Promise<PresignedUrlResponse> {
     const body: PresignedUrlBody = {
-      title: file.name,
+      filename: file.name,
       fileType: file.type,
-      sizeBytes: file.size,
+      fileSizeBytes: file.size,
     };
 
     let authorizationToken = '';
@@ -74,6 +74,7 @@ class SugarShareClient {
       },
       headers: {
         'Content-Type': file.type,
+        'x-amz-meta-filename': file.name,
       },
     });
   }
