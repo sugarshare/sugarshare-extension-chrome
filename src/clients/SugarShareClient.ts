@@ -74,6 +74,7 @@ class SugarShareClient {
       },
       headers: {
         'Content-Type': file.type,
+        'x-amz-meta-filename': file.name,
       },
     });
   }
