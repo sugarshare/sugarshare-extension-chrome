@@ -7,6 +7,7 @@ import settings, { aws } from 'settings';
 
 const AUTHENTICATION_URL = () => {
   const params = {
+    context: 'extension',
     redirect_uri: aws.cognito.redirectSignIn,
   };
 
